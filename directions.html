@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4Ever Fit — three visual directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:#e9e9e6;color:#1a1a18;
+    font-family:'Inter Tight',system-ui,sans-serif;font-size:16px;line-height:1.62}
+  .wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(20px,4vw,40px)}
+  header{padding:56px 0 8px}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.035em;margin:0 0 12px}
+  .sub{font-size:16px;color:#57574f;max-width:70ch;margin:0 0 8px}
+  .warn{font-size:13.5px;color:#7a4a22;background:#fdf3e7;border:1px solid #f0dcc2;
+    border-left:3px solid #c2793a;border-radius:0 8px 8px 0;padding:14px 18px;
+    max-width:78ch;margin-top:18px}
+
+  .dir{padding:44px 0 8px;border-top:1px solid #cfcfc9;margin-top:40px}
+  .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .n{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8a80}
+  h2{font-size:23px;font-weight:700;letter-spacing:-.02em;margin:0}
+  .tone{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:#fff;background:#57574f;border-radius:4px;padding:4px 8px}
+  .note{font-size:15px;color:#4c4c45;max-width:74ch;margin:10px 0 20px}
+  figure{margin:0}
+  img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid #cfcfc9;
+    box-shadow:0 2px 18px rgba(0,0,0,.09);background:#fff}
+
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:0;margin-top:18px;border:1px solid #d7d7d1;border-radius:10px;background:#f4f4f1;
+    overflow:hidden}
+  .meta div{padding:14px 16px;border-right:1px solid #e2e2dc}
+  .meta div:last-child{border-right:0}
+  .meta dt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.09em;
+    text-transform:uppercase;color:#84847a;margin-bottom:5px}
+  .meta dd{margin:0;font-size:13.5px;color:#33332e}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;
+    border:1px solid rgba(0,0,0,.2);vertical-align:-2px;margin-right:5px}
+
+  .risk{font-size:13.5px;color:#6b3a3a;background:#fbeeee;border:1px solid #f0d5d5;
+    border-radius:8px;padding:12px 15px;margin-top:14px;max-width:74ch}
+  .risk b{color:#5a2c2c}
+
+  footer{padding:56px 0 80px;border-top:1px solid #cfcfc9;margin-top:52px;
+    font-size:15px;color:#57574f}
+  footer b{color:#1a1a18}
+  @media (max-width:640px){ .meta{grid-template-columns:1fr} .meta div{border-right:0;border-bottom:1px solid #e2e2dc} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <h1>4Ever Fit — three visual directions</h1>
+  <p class="sub">Each varies colour strategy, type pairing, and mood together — not one
+    look recoloured three times. None of them reuse the dark bronze system that got
+    rejected. Pick one, mix elements across them, or ask for another round.</p>
+  <p class="warn"><b>These are mood references, not finished pages.</b> The people in
+    them are AI-generated, which is on the anti-slop banned list — they're here to show
+    light, colour, and composition only. The real build uses either photography of actual
+    clients and the coach, or a purely typographic treatment. Judge the palette, the type,
+    and the structure; ignore the models.</p>
+</header>
+
+<!-- ─────────── 1 ─────────── -->
+<section class="dir">
+  <div class="head">
+    <span class="n">01</span>
+    <h2>Editorial Heat</h2>
+    <span class="tone">Loudest</span>
+  </div>
+  <p class="note">Oxide red against bone, condensed all-caps display, and an oversized
+    "4" bleeding off the left edge as a structural device rather than decoration. Reads
+    like a magazine cover — high energy, unmistakably about training hard. The badge
+    appears as a pressed wax seal, treating the mark as a physical object.</p>
+  <figure><img src="branding/directions/1-editorial-heat.jpg"
+    alt="Editorial Heat direction: oxide red and bone, condensed all-caps headline reading Train Like It Matters"></figure>
+  <dl class="meta">
+    <div><dt>Palette</dt><dd><span class="sw" style="background:#9E2B14"></span>Oxide red on bone</dd></div>
+    <div><dt>Type</dt><dd>Condensed grotesque caps + neutral sans</dd></div>
+    <div><dt>Signals</dt><dd>Effort, intensity, commitment</dd></div>
+    <div><dt>Badge role</dt><dd>Wax seal — physical object</dd></div>
+  </dl>
+  <p class="risk"><b>Risk:</b> the loudest option, and loud can read cheap if the
+    photography isn't strong. It also skews masculine — worth checking against who the
+    coaching actually serves.</p>
+</section>
+
+<!-- ─────────── 2 ─────────── -->
+<section class="dir">
+  <div class="head">
+    <span class="n">02</span>
+    <h2>Quiet Athletic Luxury</h2>
+    <span class="tone">Calmest</span>
+  </div>
+  <p class="note">Off-white ground, high-contrast serif set large, soft natural light,
+    and a lot of air. The most literal reading of "boutique" — it sells attention and
+    care rather than intensity. The badge sits small and framed, like a maker's mark.</p>
+  <figure><img src="branding/directions/2-quiet-athletic-luxury.jpg"
+    alt="Quiet Athletic Luxury direction: off-white with a large serif headline reading Elevate Your Being"></figure>
+  <dl class="meta">
+    <div><dt>Palette</dt><dd><span class="sw" style="background:#F2F0EB"></span>Off-white, warm neutrals</dd></div>
+    <div><dt>Type</dt><dd>High-contrast serif + light sans</dd></div>
+    <div><dt>Signals</dt><dd>Care, expertise, calm</dd></div>
+    <div><dt>Badge role</dt><dd>Framed maker's mark</dd></div>
+  </dl>
+  <p class="risk"><b>Risk:</b> reads spa or wellness studio more than strength coaching.
+    If someone lands here wanting to get strong, this may not look like the place. Also
+    the closest of the three to a generic premium template.</p>
+</section>
+
+<!-- ─────────── 3 ─────────── -->
+<section class="dir">
+  <div class="head">
+    <span class="n">03</span>
+    <h2>Night Session</h2>
+    <span class="tone">Most technical</span>
+  </div>
+  <p class="note">Near-black with a single lime signal colour, condensed caps, and mono
+    subheads. A vertical instrumentation rail runs down the right edge carrying live
+    data. This is the only direction whose look matches the product it funnels into —
+    the site and the app read as the same system.</p>
+  <figure><img src="branding/directions/3-night-session.jpg"
+    alt="Night Session direction: near-black with lime accents, headline reading Performance Engineered For One"></figure>
+  <dl class="meta">
+    <div><dt>Palette</dt><dd><span class="sw" style="background:#111311"></span>Near-black + <span class="sw" style="background:#B4F03C"></span>lime signal</dd></div>
+    <div><dt>Type</dt><dd>Condensed caps + mono labels</dd></div>
+    <div><dt>Signals</dt><dd>Precision, measurement, results</dd></div>
+    <div><dt>Badge role</dt><dd>Ghosted monochrome</dd></div>
+  </dl>
+  <p class="risk"><b>Risk:</b> dark sites can suppress conversion for older audiences,
+    and lime-on-black is close to a well-worn fitness-tech look. Needs careful contrast
+    work and restraint with the accent to avoid feeling generic.</p>
+</section>
+
+<footer>
+  <p><b>How to decide:</b> the question isn't which is prettiest, it's which one a person
+    who wants one-on-one coaching would trust enough to start the assessment. 01 sells
+    effort, 02 sells care, 03 sells measurement. Mixing is fine — 03's structure with
+    01's warmth is a real option, for instance.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="./styles.css">
+<script src="./_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: var(--color-neutral-200); color: var(--color-text); text-wrap: pretty; }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent); }
+  [data-scroller] { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  [data-scroller]::-webkit-scrollbar { display: none; }
+  [data-om-starter="ios-frame"] > div > div { scrollbar-width: none; }
+  [data-om-starter="ios-frame"] > div > div::-webkit-scrollbar { display: none; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; box-sizing: border-box; font-family: var(--font-body);">
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="402px" height="874px" hint-size="402px,874px">
+    <div style="background: var(--color-bg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--color-text); position: relative;">
+
+      <header style="position: sticky; top: 0; z-index: 5; background: var(--color-bg); border-bottom: 2px solid var(--color-divider); padding: 62px 20px 12px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-family: var(--font-heading); font-weight: 800; font-size: 18px; letter-spacing: -0.03em; text-transform: uppercase;">4EverFit</span>
+        <span style="font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent-700);">Lifestyle</span>
+        <button type="button" onClick="{{ toggleMenu }}" style="margin-left: auto; width: 44px; height: 44px; display: flex; flex-direction: column; justify-content: center; gap: 5px; background: transparent; border: 0; cursor: pointer; padding: 0 0 0 12px;">
+          <span style="display: block; width: 24px; height: 2px; background: var(--color-text);"></span>
+          <span style="display: block; width: 24px; height: 2px; background: var(--color-text);"></span>
+          <span style="display: block; width: 16px; height: 2px; background: var(--color-accent);"></span>
+        </button>
+      </header>
+
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position: sticky; top: 0; height: 874px; margin-bottom: -874px; box-sizing: border-box; overflow: hidden; z-index: 8; background: var(--color-accent); padding: 62px 20px 40px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 40px;">
+            <span style="font-family: var(--font-heading); font-weight: 800; font-size: 18px; letter-spacing: -0.03em; text-transform: uppercase; color: var(--color-bg);">4EverFit</span>
+            <button type="button" onClick="{{ toggleMenu }}" style="margin-left: auto; height: 44px; padding: 0 4px; background: transparent; border: 0; cursor: pointer; font-family: var(--font-heading); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-bg);">Close</button>
+          </div>
+          <a href="#pillars" onClick="{{ toggleMenu }}" style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: -0.03em; color: var(--color-bg); padding: 16px 0; border-top: 2px solid var(--color-bg);">Pillars</a>
+          <a href="#how" onClick="{{ toggleMenu }}" style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: -0.03em; color: var(--color-bg); padding: 16px 0; border-top: 2px solid var(--color-bg);">Sessions</a>
+          <a href="#coach" onClick="{{ toggleMenu }}" style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: -0.03em; color: var(--color-bg); padding: 16px 0; border-top: 2px solid var(--color-bg);">Coach</a>
+          <a href="#results" onClick="{{ toggleMenu }}" style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: -0.03em; color: var(--color-bg); padding: 16px 0; border-top: 2px solid var(--color-bg); border-bottom: 2px solid var(--color-bg);">Results</a>
+          <a href="#assessment" onClick="{{ toggleMenu }}" class="btn" style="margin-top: 32px; background: var(--color-bg); color: var(--color-text); font-size: 14px; padding: 18px 20px; justify-content: flex-start; letter-spacing: 0.02em;">Take the assessment</a>
+        </div>
+      </sc-if>
+
+      <section style="padding: 32px 20px 28px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+          <span style="width: 9px; height: 9px; background: var(--color-accent); display: block;"></span>
+          <span style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-neutral-700);">One-on-one video coaching</span>
+        </div>
+        <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 40px; line-height: 0.98; letter-spacing: -0.035em; text-transform: uppercase; margin: 0 0 20px; margin-left: -0.05em;">
+          <span style="display: block;">Train with a</span>
+          <span style="display: block;">coach on</span>
+          <span style="display: block;">camera.</span>
+          <span style="display: block; color: var(--color-accent);">No guesswork.</span>
+        </h1>
+        <p style="font-size: 16px; line-height: 26px; margin: 0 0 24px; color: var(--color-neutral-800);">Nutrition, strength, cardio and supplementation — all four pillars, one coach, live every session.</p>
+        <a href="#assessment" class="btn btn-primary" style="display: flex; width: 100%; box-sizing: border-box; font-size: 15px; padding: 18px 20px; justify-content: flex-start; letter-spacing: 0.02em; color: var(--color-bg);">Take the 4-pillar assessment</a>
+      </section>
+
+      <div class="grayscale" style="position: relative; height: 420px; border-top: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider);">
+        <image-slot id="m-hero" src="https://picsum.photos/seed/4ef-hero/900/1300" shape="rect" fit="cover" placeholder="Drop the hero photo"></image-slot>
+      </div>
+
+      <section style="display: grid; grid-template-columns: 1fr 1fr;">
+        <div style="padding: 22px 20px; border-bottom: 2px solid var(--color-divider);">
+          <p style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1; color: var(--color-accent); margin: 0 0 10px; letter-spacing: -0.03em;">1:1</p>
+          <p style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin: 0;">Live on camera</p>
+        </div>
+        <div style="padding: 22px 20px; border-left: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider);">
+          <p style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1; color: var(--color-accent); margin: 0 0 10px; letter-spacing: -0.03em;">4</p>
+          <p style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin: 0;">Pillars per plan</p>
+        </div>
+        <div style="padding: 22px 20px; border-bottom: 2px solid var(--color-divider);">
+          <p style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1; color: var(--color-accent); margin: 0 0 10px; letter-spacing: -0.03em;">45<span style="font-size: 0.45em;">min</span></p>
+          <p style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin: 0;">Per session</p>
+        </div>
+        <div style="padding: 22px 20px; border-left: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider);">
+          <p style="font-family: var(--font-heading); font-weight: 800; font-size: 34px; line-height: 1; color: var(--color-accent); margin: 0 0 10px; letter-spacing: -0.03em;">0</p>
+          <p style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin: 0;">Copy-paste plans</p>
+        </div>
+      </section>
+
+      <section id="pillars" style="padding: 36px 20px 0;">
+        <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">The four-pillar system</p>
+        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.05; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 16px;">Pull one out and the whole thing falls over.</h2>
+        <p style="font-size: 15px; line-height: 26px; margin: 0 0 24px; color: var(--color-neutral-800);">Tap a pillar to see how we run it.</p>
+      </section>
+
+      <section style="border-top: 2px solid var(--color-divider);">
+        <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+          <div style="border-bottom: 2px solid var(--color-divider);">
+            <button type="button" onClick="{{ p.onToggle }}" style="display: flex; align-items: center; gap: 14px; width: 100%; box-sizing: border-box; min-height: 64px; text-align: left; background: transparent; border: 0; padding: 18px 20px; cursor: pointer; font-family: var(--font-heading); color: var(--color-text);">
+              <span style="width: 9px; height: 9px; background: var(--color-accent); display: block; flex: none;"></span>
+              <span style="font-weight: 800; font-size: 12px; font-feature-settings: 'tnum' 1; color: var(--color-neutral-700); flex: none;">{{ p.num }}</span>
+              <span style="font-weight: 800; font-size: 19px; letter-spacing: -0.02em; text-transform: uppercase; flex: 1;">{{ p.title }}</span>
+              <span style="font-family: var(--font-body); font-size: 22px; color: var(--color-accent); flex: none;">{{ p.sign }}</span>
+            </button>
+            <sc-if value="{{ p.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 0 20px 24px;">
+                <p style="font-size: 15px; line-height: 26px; color: var(--color-neutral-800); margin: 0 0 16px;">{{ p.body }}</p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <span class="tag tag-outline" style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;">{{ p.t1 }}</span>
+                  <span class="tag tag-outline" style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;">{{ p.t2 }}</span>
+                  <span class="tag tag-outline" style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;">{{ p.t3 }}</span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </section>
+
+      <section id="how" style="background: var(--color-neutral-900); color: var(--color-neutral-100);">
+        <div class="grayscale" style="position: relative; height: 300px; border-bottom: 2px solid var(--color-neutral-700);">
+          <image-slot id="m-session" src="https://picsum.photos/seed/4ef-session/1000/900" shape="rect" fit="cover" placeholder="Drop a live-session photo"></image-slot>
+        </div>
+        <div style="padding: 32px 20px 8px;">
+          <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-400); margin: 0 0 12px;">How a session runs</p>
+          <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.05; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 28px; color: var(--color-neutral-100);">45 minutes. Camera on. Nothing to figure out.</h2>
+        </div>
+        <div style="padding: 0 20px 36px;">
+          <div style="padding: 20px 0; border-top: 2px solid var(--color-neutral-700);">
+            <p style="font-family: var(--font-heading); font-weight: 800; font-size: 12px; color: var(--color-accent-400); margin: 0 0 10px;">01</p>
+            <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; color: var(--color-neutral-100);">Warm-up and check-in</h4>
+            <p style="font-size: 15px; line-height: 26px; margin: 0; color: var(--color-neutral-300);">Sleep, soreness, what you ate. The session adapts before the first set.</p>
+          </div>
+          <div style="padding: 20px 0; border-top: 2px solid var(--color-neutral-700);">
+            <p style="font-family: var(--font-heading); font-weight: 800; font-size: 12px; color: var(--color-accent-400); margin: 0 0 10px;">02</p>
+            <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; color: var(--color-neutral-100);">Coached work, rep by rep</h4>
+            <p style="font-size: 15px; line-height: 26px; margin: 0; color: var(--color-neutral-300);">Your coach cues tempo, depth and bracing in real time, and loads the bar to what you have today.</p>
+          </div>
+          <div style="padding: 20px 0; border-top: 2px solid var(--color-neutral-700); border-bottom: 2px solid var(--color-neutral-700);">
+            <p style="font-family: var(--font-heading); font-weight: 800; font-size: 12px; color: var(--color-accent-400); margin: 0 0 10px;">03</p>
+            <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; color: var(--color-neutral-100);">The week, written down</h4>
+            <p style="font-size: 15px; line-height: 26px; margin: 0; color: var(--color-neutral-300);">You leave with the next seven days across all four pillars: meals, lifts, cardio, and what to take.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="assessment" style="padding: 36px 0 40px; border-bottom: 2px solid var(--color-divider);">
+        <div style="padding: 0 20px 24px;">
+          <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">The 4-pillar assessment</p>
+          <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 30px; line-height: 1.02; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 14px;">Four questions. One per pillar.</h2>
+          <p style="font-size: 15px; line-height: 26px; margin: 0; color: var(--color-neutral-800);">Answer honestly and your coach emails a starting plan across all four pillars.</p>
+        </div>
+
+        <div style="border-top: 2px solid var(--color-text); border-bottom: 2px solid var(--color-text); background: var(--color-neutral-100);">
+          <div style="display: flex; border-bottom: 2px solid var(--color-divider);">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+              <div style="flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 8px; border-right: 2px solid var(--color-divider);">
+                <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: block; height: 6px; background: var(--color-accent);"></span>
+                </sc-if>
+                <sc-if value="{{ s.todo }}" hint-placeholder-val="{{ true }}">
+                  <span style="display: block; height: 6px; background: var(--color-neutral-300);"></span>
+                </sc-if>
+                <span style="font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">{{ s.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ asking }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="padding: 24px 20px 20px;">
+                <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">{{ q.kicker }}</p>
+                <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 22px; line-height: 1.15; letter-spacing: -0.02em; margin: 0;">{{ q.title }}</h3>
+              </div>
+              <div style="border-top: 2px solid var(--color-divider);">
+                <sc-for list="{{ q.options }}" as="opt" hint-placeholder-count="4">
+                  <button type="button" onClick="{{ opt.onPick }}" style="display: flex; align-items: center; gap: 14px; width: 100%; box-sizing: border-box; min-height: 60px; text-align: left; background: transparent; border: 0; border-bottom: 2px solid var(--color-divider); padding: 16px 20px; cursor: pointer; font-family: var(--font-body); font-size: 16px; line-height: 24px; color: var(--color-text);">
+                    <sc-if value="{{ opt.picked }}" hint-placeholder-val="{{ false }}">
+                      <span style="width: 16px; height: 16px; background: var(--color-accent); display: block; flex: none;"></span>
+                    </sc-if>
+                    <sc-if value="{{ opt.unpicked }}" hint-placeholder-val="{{ true }}">
+                      <span style="width: 16px; height: 16px; border: 2px solid var(--color-neutral-500); display: block; flex: none;"></span>
+                    </sc-if>
+                    <span>{{ opt.label }}</span>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 18px 20px;">
+                <sc-if value="{{ canGoBack }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ back }}" class="btn btn-secondary" style="font-size: 13px; padding: 14px 18px; min-height: 44px; color: var(--color-text); cursor: pointer;">Back</button>
+                </sc-if>
+                <span style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600); margin-left: auto;">{{ progressLabel }}</span>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ capturing }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 24px 20px 28px;">
+              <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">Last step</p>
+              <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 22px; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 20px;">Where should we send the plan?</h3>
+              <div style="display: grid; gap: 16px;">
+                <div class="field">
+                  <label for="mf-name" style="display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: 8px;">First name</label>
+                  <input id="mf-name" class="input" type="text" value="{{ name }}" onChange="{{ onName }}" placeholder="Jordan" style="width: 100%; box-sizing: border-box; padding: 15px 14px; font-size: 16px; min-height: 48px;">
+                </div>
+                <div class="field">
+                  <label for="mf-email" style="display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: 8px;">Email</label>
+                  <input id="mf-email" class="input" type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@work.com" style="width: 100%; box-sizing: border-box; padding: 15px 14px; font-size: 16px; min-height: 48px;">
+                </div>
+              </div>
+              <button type="button" onClick="{{ submit }}" class="btn btn-primary" style="display: flex; width: 100%; box-sizing: border-box; margin-top: 20px; font-size: 15px; padding: 18px 20px; min-height: 52px; justify-content: flex-start; color: var(--color-bg); cursor: pointer;">Send my plan</button>
+              <div style="display: flex; align-items: center; gap: 12px; margin-top: 14px;">
+                <button type="button" onClick="{{ back }}" class="btn btn-secondary" style="font-size: 13px; padding: 14px 18px; min-height: 44px; color: var(--color-text); cursor: pointer;">Back</button>
+                <span style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-700);">{{ errorText }}</span>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 28px 20px 32px;">
+              <span style="width: 14px; height: 14px; background: var(--color-accent); display: block; margin-bottom: 20px;"></span>
+              <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 26px; line-height: 1.08; letter-spacing: -0.025em; text-transform: uppercase; margin: 0 0 14px;">{{ thanksTitle }}</h3>
+              <p style="font-size: 15px; line-height: 26px; color: var(--color-neutral-800); margin: 0 0 22px;">Your four-pillar plan is being written now and lands in your inbox within one working day.</p>
+              <button type="button" onClick="{{ restart }}" class="btn btn-secondary" style="font-size: 13px; padding: 14px 18px; min-height: 44px; color: var(--color-text); cursor: pointer;">Start over</button>
+            </div>
+          </sc-if>
+        </div>
+      </section>
+
+      <section id="coach">
+        <div class="grayscale" style="position: relative; height: 420px; border-bottom: 2px solid var(--color-divider);">
+          <image-slot id="m-coach" src="https://picsum.photos/seed/4ef-coach/900/1100" shape="rect" fit="cover" placeholder="Drop the coach's portrait"></image-slot>
+        </div>
+        <div style="padding: 32px 20px 8px;">
+          <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">Your coach</p>
+          <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.03; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 18px;">One coach. Your whole file.</h2>
+          <p style="font-size: 15px; line-height: 26px; color: var(--color-neutral-800); margin: 0 0 16px;">Fifteen years on the gym floor, the last six of them on camera. First-time lifters through their first plate, desk-bound executives back to sprinting — same four pillars, different dose.</p>
+          <p style="font-size: 15px; line-height: 26px; color: var(--color-neutral-800); margin: 0 0 24px;">You do not get handed off. The person who writes your nutrition writes your lifts.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--color-divider);">
+          <div style="padding: 16px 20px; border-bottom: 2px solid var(--color-divider);">
+            <p style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">NSCA-CSCS</p>
+            <p style="font-size: 11px; color: var(--color-neutral-700); margin: 6px 0 0;">Strength &amp; conditioning</p>
+          </div>
+          <div style="padding: 16px 20px; border-left: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider);">
+            <p style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">PN Level 2</p>
+            <p style="font-size: 11px; color: var(--color-neutral-700); margin: 6px 0 0;">Nutrition coaching</p>
+          </div>
+          <div style="padding: 16px 20px; border-bottom: 2px solid var(--color-divider);">
+            <p style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">15 years</p>
+            <p style="font-size: 11px; color: var(--color-neutral-700); margin: 6px 0 0;">Floor to camera</p>
+          </div>
+          <div style="padding: 16px 20px; border-left: 2px solid var(--color-divider); border-bottom: 2px solid var(--color-divider);">
+            <p style="font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">400+ clients</p>
+            <p style="font-size: 11px; color: var(--color-neutral-700); margin: 6px 0 0;">Coached one-on-one</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" style="padding: 36px 0 40px; border-bottom: 2px solid var(--color-divider);">
+        <div style="padding: 0 20px 22px;">
+          <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">Results</p>
+          <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.03; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 10px;">Twelve weeks of doing the boring things.</h2>
+          <p style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-600); margin: 0;">Swipe →</p>
+        </div>
+        <div data-scroller style="display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 20px;">
+          <figure style="margin: 0; flex: none; width: 280px; scroll-snap-align: start;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px; background: var(--color-text);">
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-1-before" src="https://picsum.photos/seed/4ef-b1/600/800" shape="rect" fit="cover" placeholder="Before"></image-slot>
+              </div>
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-1-after" src="https://picsum.photos/seed/4ef-a1/600/800" shape="rect" fit="cover" placeholder="After"></image-slot>
+              </div>
+            </div>
+            <figcaption style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">
+              <span>Marcus · 16 wks</span>
+              <span style="color: var(--color-accent-700);">−31 lb</span>
+            </figcaption>
+          </figure>
+          <figure style="margin: 0; flex: none; width: 280px; scroll-snap-align: start;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px; background: var(--color-text);">
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-2-before" src="https://picsum.photos/seed/4ef-b2/600/800" shape="rect" fit="cover" placeholder="Before"></image-slot>
+              </div>
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-2-after" src="https://picsum.photos/seed/4ef-a2/600/800" shape="rect" fit="cover" placeholder="After"></image-slot>
+              </div>
+            </div>
+            <figcaption style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">
+              <span>Priya · 12 wks</span>
+              <span style="color: var(--color-accent-700);">First 5 pull-ups</span>
+            </figcaption>
+          </figure>
+          <figure style="margin: 0; flex: none; width: 280px; scroll-snap-align: start;">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2px; background: var(--color-text);">
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-3-before" src="https://picsum.photos/seed/4ef-b3/600/800" shape="rect" fit="cover" placeholder="Before"></image-slot>
+              </div>
+              <div class="grayscale" style="position: relative; aspect-ratio: 3 / 4;">
+                <image-slot id="m-res-3-after" src="https://picsum.photos/seed/4ef-a3/600/800" shape="rect" fit="cover" placeholder="After"></image-slot>
+              </div>
+            </div>
+            <figcaption style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">
+              <span>Dev · 20 wks</span>
+              <span style="color: var(--color-accent-700);">Back to sprinting</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section data-scroller style="display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; border-bottom: 2px solid var(--color-divider);">
+        <figure style="margin: 0; flex: none; width: 320px; padding: 28px 20px; scroll-snap-align: start; box-sizing: border-box;">
+          <blockquote style="font-family: var(--font-heading); font-weight: 800; font-size: 19px; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 16px;">“I had been lifting for nine years and getting nowhere. Six weeks in someone finally watched my hips move.”</blockquote>
+          <figcaption style="font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">Marcus T. · Gym regular</figcaption>
+        </figure>
+        <figure style="margin: 0; flex: none; width: 320px; padding: 28px 20px; scroll-snap-align: start; box-sizing: border-box; border-left: 2px solid var(--color-divider);">
+          <blockquote style="font-family: var(--font-heading); font-weight: 800; font-size: 19px; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 16px;">“Two kids, four flights a month, and I still have not missed a session. It is 45 minutes in my living room.”</blockquote>
+          <figcaption style="font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">Priya N. · Operations director</figcaption>
+        </figure>
+        <figure style="margin: 0; flex: none; width: 320px; padding: 28px 20px; scroll-snap-align: start; box-sizing: border-box; border-left: 2px solid var(--color-divider);">
+          <blockquote style="font-family: var(--font-heading); font-weight: 800; font-size: 19px; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 16px;">“The supplement audit alone paid for the coaching. He told me to stop buying four of the six things I had.”</blockquote>
+          <figcaption style="font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700);">Dev R. · Masters sprinter</figcaption>
+        </figure>
+      </section>
+
+      <section style="padding: 36px 20px 8px;">
+        <p style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-700); margin: 0 0 12px;">Questions</p>
+        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.03; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 20px;">Before you book.</h2>
+      </section>
+      <section style="border-top: 2px solid var(--color-divider);">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+          <div style="border-bottom: 2px solid var(--color-divider);">
+            <button type="button" onClick="{{ f.onToggle }}" style="display: flex; align-items: center; gap: 14px; width: 100%; box-sizing: border-box; min-height: 60px; text-align: left; background: transparent; border: 0; padding: 18px 20px; cursor: pointer; font-family: var(--font-heading); font-weight: 800; font-size: 17px; letter-spacing: -0.01em; color: var(--color-text);">
+              <span style="flex: 1;">{{ f.q }}</span>
+              <span style="font-family: var(--font-body); font-size: 20px; color: var(--color-accent); flex: none;">{{ f.sign }}</span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size: 15px; line-height: 26px; color: var(--color-neutral-800); margin: 0; padding: 0 20px 22px;">{{ f.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </section>
+
+      <section style="background: var(--color-accent); color: var(--color-bg); padding: 40px 20px 44px;">
+        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 38px; line-height: 0.98; letter-spacing: -0.035em; text-transform: uppercase; margin: 0 0 24px; margin-left: -0.05em; color: var(--color-bg);">
+          <span style="display: block;">Four pillars.</span>
+          <span style="display: block;">One coach.</span>
+          <span style="display: block;">Starting Monday.</span>
+        </h2>
+        <a href="#assessment" class="btn" style="display: flex; width: 100%; box-sizing: border-box; background: var(--color-bg); color: var(--color-text); font-size: 15px; padding: 18px 20px; justify-content: flex-start; letter-spacing: 0.02em;">Take the assessment</a>
+      </section>
+
+      <footer style="padding: 28px 20px 40px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: baseline; gap: 10px;">
+          <span style="font-family: var(--font-heading); font-weight: 800; font-size: 15px; letter-spacing: -0.03em; text-transform: uppercase;">4EverFit</span>
+          <span style="font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent-700);">Lifestyle</span>
+        </div>
+        <span style="font-size: 12px; color: var(--color-neutral-700);">Nutrition · Strength · Cardio · Supplementation</span>
+      </footer>
+
+      <div style="position: sticky; bottom: 0; z-index: 25; background: var(--color-bg); border-top: 2px solid var(--color-text); padding: 12px 20px 40px; display: flex; align-items: center; gap: 14px;">
+        <a href="#assessment" class="btn btn-primary" style="display: flex; flex: 1; font-size: 14px; padding: 16px 18px; min-height: 48px; justify-content: flex-start; color: var(--color-bg); letter-spacing: 0.02em;">Take the assessment</a>
+        <span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700); width: 74px;">4 questions · 90s</span>
+      </div>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:480,&quot;height&quot;:960}}">
+class Component extends DCLogic {
+  state = { step: 0, answers: [null, null, null, null], name: "", email: "", submitted: false, error: "", openFaq: -1, openPillar: 0, menuOpen: false };
+
+  questions = [
+    { kicker: "Pillar 01 — Nutrition", title: "How would you describe your eating right now?",
+      options: ["Dialed in and tracked", "Mostly clean, but no real plan", "Fine on weekdays, gone by Friday", "Honestly, no idea"] },
+    { kicker: "Pillar 02 — Strength training", title: "Where are you with lifting?",
+      options: ["Training 3+ days, want progression", "On and off for years", "Brand new to the barbell", "Coming back from an injury"] },
+    { kicker: "Pillar 03 — Cardio", title: "How is your conditioning?",
+      options: ["Running or riding every week", "Walks, and that's about it", "Winded on the stairs", "Competitive — I want more engine"] },
+    { kicker: "Pillar 04 — Supplementation", title: "What are you taking today?",
+      options: ["A full stack — audit it", "Protein and that's it", "A cabinet full of guesses", "Nothing yet"] }
+  ];
+
+  pillarData = [
+    { num: "01", title: "Nutrition", body: "Macros set to your body and your calendar — not a template. We build the week you will actually eat, then adjust it against the scale and the mirror.", t1: "Macro targets", t2: "Weekly check-ins", t3: "Eating-out playbook" },
+    { num: "02", title: "Strength training", body: "Progressive overload with a coach on the other end of the camera. Form corrected in the rep, not in a comment thread three days later.", t1: "Live form coaching", t2: "Logged progression", t3: "Home or full gym" },
+    { num: "03", title: "Cardio", body: "Conditioning dosed like medicine: enough to move your engine, never enough to eat the strength work. Zones, intervals, and a reason for each one.", t1: "Zone 2 base", t2: "Interval blocks", t3: "Recovery tracking" },
+    { num: "04", title: "Supplementation", body: "An audit, not an upsell. We keep what the evidence supports, cut what your cabinet is wasting, and time the rest around your training.", t1: "Cabinet audit", t2: "Evidence-only stack", t3: "Dose timing" }
+  ];
+
+  faqData = [
+    { q: "Do I need a gym?", a: "No. Plans are written for whatever you have — a full rack, a pair of dumbbells in a bedroom, or a hotel gym for the weeks you travel." },
+    { q: "What does a session look like?", a: "You, your coach, and a camera for 45 minutes: check-in, coached work with live cues on form, then the next seven days written down across all four pillars." },
+    { q: "Is nutrition separate?", a: "Never. Nutrition is pillar one — the same coach who programs your lifts sets your macros and reviews your week." },
+    { q: "How often does the plan change?", a: "Weekly. Strength and cardio adjust every session, nutrition against your check-in numbers, and the stack gets re-audited whenever the goal moves." },
+    { q: "What happens after the assessment?", a: "Your coach reads it personally and emails a starting plan within one working day. No card, no automated call sequence." }
+  ];
+
+  pick(i, label) {
+    this.setState((s) => {
+      const answers = s.answers.slice();
+      answers[i] = label;
+      return { answers, step: Math.min(s.step + 1, 4), error: "" };
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const idx = Math.min(s.step, 3);
+    const q = this.questions[idx];
+    const labels = ["Nutrition", "Strength", "Cardio", "Supps"];
+
+    return {
+      menuOpen: s.menuOpen,
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+
+      asking: s.step < 4 && !s.submitted,
+      capturing: s.step >= 4 && !s.submitted,
+      submitted: s.submitted,
+      progressLabel: "Question " + (idx + 1) + " of 4",
+      canGoBack: s.step > 0 && !s.submitted,
+      thanksTitle: s.name ? "Thanks, " + s.name + "." : "Your assessment is in.",
+      errorText: s.error,
+      name: s.name,
+      email: s.email,
+
+      steps: labels.map((label, i) => ({ label, done: !!s.answers[i], todo: !s.answers[i] })),
+
+      q: {
+        kicker: q.kicker,
+        title: q.title,
+        options: q.options.map((label) => {
+          const picked = s.answers[idx] === label;
+          return { label, picked, unpicked: !picked, onPick: () => this.pick(idx, label) };
+        })
+      },
+
+      back: () => this.setState((st) => ({ step: Math.max(0, st.step - 1), error: "" })),
+      onName: (e) => this.setState({ name: e.target.value }),
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      submit: () => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email)) { this.setState({ error: "Enter a valid email" }); return; }
+        this.setState({ submitted: true, error: "" });
+      },
+      restart: () => this.setState({ step: 0, answers: [null, null, null, null], name: "", email: "", submitted: false, error: "" }),
+
+      pillars: this.pillarData.map((p, i) => ({
+        num: p.num, title: p.title, body: p.body, t1: p.t1, t2: p.t2, t3: p.t3,
+        open: s.openPillar === i,
+        sign: s.openPillar === i ? "–" : "+",
+        onToggle: () => this.setState((st) => ({ openPillar: st.openPillar === i ? -1 : i }))
+      })),
+
+      faqs: this.faqData.map((f, i) => ({
+        q: f.q, a: f.a,
+        open: s.openFaq === i,
+        sign: s.openFaq === i ? "–" : "+",
+        onToggle: () => this.setState((st) => ({ openFaq: st.openFaq === i ? -1 : i }))
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

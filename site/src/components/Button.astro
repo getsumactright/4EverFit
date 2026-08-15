@@ -1,0 +1,54 @@
+---
+// Button — 3 variants. Pill-shaped, sentence-case labels (the old system's
+// forced uppercase button text was part of its "shouty" brutalist voice;
+// this brand is calm and confident instead, per PRODUCT.md).
+interface Props {
+  variant?: 'primary' | 'secondary' | 'inverted';
+  href?: string;
+  type?: 'button' | 'submit';
+  block?: boolean;
+  class?: string;
+  id?: string;
+}
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  block = false,
+  class: className = '',
+  id,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 font-body font-semibold text-[15px] tracking-[-0.01em] px-6 py-3.5 rounded-full transition-[background-color,box-shadow,transform] duration-200 ease-out';
+
+const variants: Record<string, string> = {
+  primary:
+    'btn-primary bg-brass text-ink hover:bg-brass-bright focus-visible:bg-brass-bright shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-brass)] active:scale-[0.98]',
+  secondary:
+    'btn-secondary bg-transparent text-cream border border-[color-mix(in_srgb,var(--color-cream)_35%,transparent)] hover:border-brass hover:text-brass-bright active:scale-[0.98]',
+  inverted:
+    'btn-inverted bg-paper text-ink hover:bg-[color:var(--color-paper-muted)] shadow-[var(--shadow-sm)] active:scale-[0.98]',
+};
+
+const widthClass = block ? 'w-full' : '';
+const cls = `${base} ${variants[variant]} ${widthClass} ${className}`;
+const Tag = href ? 'a' : 'button';
+---
+<Tag class={cls} href={href} type={href ? undefined : type} id={id}>
+  <slot />
+</Tag>
+
+<style>
+  /* Secondary is styled for the dark ground by default; inside a paper
+     surface (the assessment card) it needs ink-colored text/border instead
+     of cream. */
+  :global(.on-paper) .btn-secondary {
+    color: var(--color-ink);
+    border-color: color-mix(in srgb, var(--color-ink) 30%, transparent);
+  }
+  :global(.on-paper) .btn-secondary:hover {
+    color: var(--color-brass-deep);
+    border-color: var(--color-brass);
+  }
+</style>

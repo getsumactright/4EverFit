@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4EverFit Lifestyle — visual system v2, "Cast Bronze"
+   ─────────────────────────────────────────────────────────────────────────
+   Replaces the site's original flat "Counted Weight" system (zero radius,
+   red accent, no shadows) — that system was designed around an earlier,
+   abandoned logo concept and visually fights the client's actual mark: a
+   dimensional bronze/gunmetal cast badge. See PRODUCT.md for the full
+   rationale and anti-references.
+
+   Direction: a boutique training studio at dusk, not a SaaS dashboard —
+   warm dark ground (the room), one cast-bronze accent (the badge on the
+   wall), a light "paper" surface used deliberately for the handful of
+   places that need to read as a framed, tactile object (the assessment
+   card, credential grid, result cards) rather than the badge doing all the
+   dimensional work alone.
+
+   Contrast verified (WCAG AA): cream/bg 14.9:1, ink/paper 14.6:1,
+   brass-deep/paper 5.1:1, brass-deep-on-dark/bg 11.1:1, ink/brass button
+   5.7:1. Plain --color-brass is for icons, large display numerals (≥28px)
+   and non-text fills only — it does not clear body-text contrast on paper
+   (2.6:1); body-sized accent text always steps to a -deep token.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Ground — flipped light for a softer, easier-on-the-eyes read. Paper
+     stays the brightest surface (white) so it still visibly lifts off the
+     slightly deeper warm-cream bg, same "framed object" hierarchy as the
+     old dark version just at the light end of the scale. */
+  --color-bg: #efe9dd;         /* primary page ground — soft warm cream */
+  --color-bg-raised: #f8f4ec;  /* cards/panels sitting directly on --color-bg */
+  --color-paper: #ffffff;      /* brightest "framed object" surface — used deliberately, not as page default */
+  --color-paper-muted: #f1ebdd;/* hover/pressed fill on paper */
+
+  /* Ink */
+  --color-ink: #1c150e;        /* dark text — used on paper surfaces */
+  --color-cream: var(--color-ink);    /* primary text on --color-bg — now light ground, so this is dark ink too */
+  --color-cream-muted: #6b5c46;/* secondary text on --color-bg — matches --color-muted now both surfaces are light */
+  --color-muted: #6b5c46;      /* secondary text on paper */
+
+  /* Accent — cast bronze, off the badge. Deepened from the dark-theme
+     values (which read as light gold on near-black) so the same accent
+     still clears AA contrast against the new light ground; verified
+     against #efe9dd/#ffffff: brass 3.9:1 (large text/icons/fills only),
+     brass-bright 6.1:1, brass-deep unchanged at 5.1:1. */
+  --color-brass: #a3792e;          /* icons, dividers, large numerals, button fills */
+  --color-brass-bright: #7f5c1e;   /* emphasis text, hover state */
+  --color-brass-deep: #7c5a24;     /* accent-colored body text on paper (5.1:1) */
+  --color-brass-deep-ondark: #e7c483; /* unused currently — kept for a future dark-surface accent need */
+
+  --color-divider: color-mix(in srgb, var(--color-cream) 14%, transparent);
+  --color-divider-onlight: color-mix(in srgb, var(--color-ink) 12%, transparent);
+
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 3px color-mix(in srgb, #0a0704 30%, transparent);
+  --shadow-md: 0 8px 24px color-mix(in srgb, #0a0704 34%, transparent);
+  --shadow-lg: 0 24px 56px color-mix(in srgb, #0a0704 42%, transparent);
+  --shadow-brass: 0 0 0 1px color-mix(in srgb, var(--color-brass) 55%, transparent),
+    0 10px 30px color-mix(in srgb, var(--color-brass) 22%, transparent);
+
+  /* Semantic z-index scale — never arbitrary values elsewhere */
+  --z-sticky: 20;
+  --z-modal-backdrop: 30;
+  --z-modal: 31;
+  --z-toast: 40;
+  --z-intro: 60;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-raised: var(--color-bg-raised);
+  --color-paper: var(--color-paper);
+  --color-paper-muted: var(--color-paper-muted);
+  --color-ink: var(--color-ink);
+  --color-cream: var(--color-cream);
+  --color-cream-muted: var(--color-cream-muted);
+  --color-muted: var(--color-muted);
+
+  --color-brass: var(--color-brass);
+  --color-brass-bright: var(--color-brass-bright);
+  --color-brass-deep: var(--color-brass-deep);
+  --color-brass-deep-ondark: var(--color-brass-deep-ondark);
+  --color-accent: var(--color-brass);
+
+  --color-divider: var(--color-divider);
+  --color-divider-onlight: var(--color-divider-onlight);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  h1, h2 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--color-brass-bright); outline-offset: 3px; border-radius: 2px; }
+  ::selection { background: color-mix(in srgb, var(--color-brass) 35%, transparent); }
+
+  /* Eyebrow — used deliberately on a handful of sections, not every one */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .mark { display: block; width: 7px; height: 7px; border-radius: 999px; background: var(--color-brass); flex: none; }
+  .mark-hollow { display: block; width: 16px; height: 16px; border-radius: 999px; border: 2px solid color-mix(in srgb, var(--color-cream) 30%, transparent); flex: none; }
+  .on-paper .mark-hollow { border-color: color-mix(in srgb, var(--color-ink) 30%, transparent); }
+  /* Progress state lives on the ancestor [data-progress-item], not the
+     marker itself — descendant selectors so it applies regardless of
+     nesting (desktop: circle marker; mobile: bar marker). */
+  [data-done="true"] .mark-hollow,
+  [data-done="true"] [data-progress-marker] {
+    background: var(--color-brass);
+    border-color: var(--color-brass);
+  }
+
+  .grayscale { filter: saturate(0.82) contrast(1.05); }
+  .rule { border: 0; border-top: 1px solid var(--color-divider); }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Native <details> single-open accordion marker (+ / –). */
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .acc-sign::before { content: "+"; }
+  details[open] .acc-sign::before { content: "\2013"; }
+
+  /* Slow bronze sheen — used once, on the hero badge, per "the badge earns
+     its keep once" principle. Not applied anywhere else. */
+  @keyframes sheen {
+    0%, 100% { background-position: -120% 0; }
+    50% { background-position: 220% 0; }
+  }
+  .badge-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .badge-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 40%,
+      color-mix(in srgb, var(--color-brass-bright) 35%, transparent) 50%,
+      transparent 60%
+    );
+    background-size: 300% 100%;
+    animation: sheen 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .badge-sheen::after { animation: none; display: none; }
+  }
+}

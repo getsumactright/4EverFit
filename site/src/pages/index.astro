@@ -1,0 +1,924 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import Field from '../components/Field.astro';
+import Tag from '../components/Tag.astro';
+import GrayFigure from '../components/GrayFigure.astro';
+import Logo from '../components/Logo.astro';
+
+const pillars = [
+  {
+    index: '01',
+    name: 'Nutrition',
+    body: 'Macros set to your training load, not a generic calorie target, with a weekly check-in so the plan moves as your life does.',
+    items: ['Macro targets', 'Weekly check-ins', 'Eating-out playbook'],
+  },
+  {
+    index: '02',
+    name: 'Strength training',
+    body: 'Live form coaching on camera and a logged progression, whether you train at home with bands or a full commercial gym.',
+    items: ['Live form coaching', 'Logged progression', 'Home or full gym'],
+  },
+  {
+    index: '03',
+    name: 'Cardio',
+    body: 'A Zone 2 base under everything, interval blocks layered on top, and recovery tracked so hard days stay hard.',
+    items: ['Zone 2 base', 'Interval blocks', 'Recovery tracking'],
+  },
+  {
+    index: '04',
+    name: 'Supplementation',
+    body: 'An audit of the cabinet you already have, an evidence-only stack, and dose timing that actually matches your training.',
+    items: ['Cabinet audit', 'Evidence-only stack', 'Dose timing'],
+  },
+];
+
+const stats = [
+  { value: '1:1', unit: '', caption: 'Every session live on camera' },
+  { value: '4', unit: '', caption: 'Pillars in every plan we write' },
+  { value: '45', unit: 'min', caption: 'Per session, start to cooldown' },
+  { value: '0', unit: '', caption: 'Copy-paste programs handed out' },
+];
+
+const sessionSteps = [
+  { title: 'Warm-up and check-in', body: 'A few minutes on how the week actually went before any weight moves.' },
+  { title: 'Coached work, rep by rep', body: 'Your coach watches every set live and corrects form in real time, not after the fact.' },
+  { title: 'The week, written down', body: 'Nutrition, cardio and recovery targets for the next seven days, sent to your app before you log off.' },
+];
+
+const questions = [
+  {
+    pillar: 'Nutrition',
+    kicker: 'Pillar 01 — Nutrition',
+    question: 'How would you describe your eating right now?',
+    options: [
+      'Dialed in and tracked',
+      'Mostly clean, but no real plan',
+      "Fine on weekdays, gone by Friday",
+      'Honestly, no idea',
+    ],
+  },
+  {
+    pillar: 'Strength',
+    kicker: 'Pillar 02 — Strength training',
+    question: 'Where are you with lifting?',
+    options: [
+      'Training 3+ days, want progression',
+      'On and off for years',
+      'Brand new to the barbell',
+      'Coming back from an injury',
+    ],
+  },
+  {
+    pillar: 'Cardio',
+    kicker: 'Pillar 03 — Cardio',
+    question: 'How is your conditioning?',
+    options: [
+      'Running or riding every week',
+      "Walks, and that's about it",
+      'Winded on the stairs',
+      'Competitive — I want more engine',
+    ],
+  },
+  {
+    pillar: 'Supplements',
+    kicker: 'Pillar 04 — Supplementation',
+    question: 'What are you taking today?',
+    options: [
+      'A full stack — audit it',
+      "Protein and that's it",
+      'A cabinet full of guesses',
+      'Nothing yet',
+    ],
+  },
+];
+
+const credentialsDesktop = ['NSCA-CSCS', 'Precision Nutrition L2', '15 years coaching', '400+ clients'];
+const credentialsMobile = ['NSCA-CSCS', 'PN Level 2', '15 years', '400+ clients'];
+
+const results = [
+  { before: '4ef-a1', after: '4ef-b1', name: 'Marcus', duration: '16 weeks', stat: '−31 lb · +90 lb squat', statShort: '−31 lb' },
+  { before: '4ef-a2', after: '4ef-b2', name: 'Priya', duration: '12 weeks', stat: 'First 5 pull-ups', statShort: 'First 5 pull-ups' },
+  { before: '4ef-a3', after: '4ef-b3', name: 'Dev', duration: '20 weeks', stat: 'Back to sprinting', statShort: 'Back to sprinting' },
+];
+
+const testimonials = [
+  { quote: 'For the first time a coach actually watched me lift instead of just handing me a spreadsheet.', name: 'Marcus T.', role: 'Gym regular' },
+  { quote: 'Four pillars sounds simple until you realize most programs only ever give you one.', name: 'Priya N.', role: 'Operations director' },
+  { quote: 'Coming back from an injury, the form coaching alone was worth it.', name: 'Dev R.', role: 'Masters sprinter' },
+];
+
+const faqItems = [
+  {
+    q: 'Do I need a gym?',
+    a: 'No. Sessions run wherever your camera can see you — a full commercial gym, a home rack, or just floor space, and your plan is written for whatever equipment you actually have.',
+  },
+  {
+    q: 'What does a session actually look like?',
+    a: 'A 45-minute video call: a quick check-in on the week, coached work with live form corrections, and the next seven days written to your app before you log off.',
+  },
+  {
+    q: 'Is nutrition a separate service?',
+    a: 'No — it is one of the four pillars in every plan, with macro targets and a weekly check-in included from the start, not billed separately.',
+  },
+  {
+    q: 'How often do the four pillars get revisited?',
+    a: 'Every week, at minimum. Your coach reads your check-in and adjusts nutrition, training, cardio and supplementation together, not on four different schedules.',
+  },
+  {
+    q: 'What happens after I take the assessment?',
+    a: "Your coach reads your four answers and builds your starting plan — you'll get it the moment you open the 4Ever Fit app. No calls, no sales pitch, no card required.",
+  },
+];
+---
+
+<Layout>
+  <!-- ═══════════════════════════ INTRO ═══════════════════════════
+       Plays once per session before the hero. Video hands off into the
+       hero badge: the overlay fades, the (now larger) hero badge pops in
+       in sync, so the badge that assembled itself in the intro reads as
+       the same object landing in the hero. Skippable, reduced-motion
+       safe, and never blocks content — the hero is fully in the DOM and
+       readable underneath the whole time. -->
+  <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] bg-bg flex items-center justify-center">
+    <video
+      id="intro-video"
+      class="w-[min(66vw,440px)] aspect-square rounded-[var(--radius-lg)]"
+      src="/video/badge-intro.mp4"
+      poster="/video/badge-intro-poster.jpg"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+    ></video>
+    <button type="button" id="intro-skip" aria-label="Skip intro animation" class="absolute bottom-8 right-8 text-[13px] text-cream-muted hover:text-cream transition-colors">
+      Skip intro
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════ DESKTOP ═══════════════════════════ -->
+  <div class="hidden sm:block bg-bg text-cream">
+    <!-- 1. Sticky nav -->
+    <header class="sticky top-0 z-[var(--z-sticky)] bg-bg/90 backdrop-blur-sm border-b border-[color:var(--color-divider)]">
+      <div class="flex items-center gap-8 px-[clamp(24px,5vw,72px)] py-4">
+        <Logo href="#top" size="40px" />
+        <nav class="ml-auto hidden min-[900px]:flex items-center gap-8">
+          <a href="#pillars" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Pillars</a>
+          <a href="#how" class="text-[14px] text-cream-muted hover:text-cream transition-colors">How it works</a>
+          <a href="#coach" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Coach</a>
+          <a href="#results" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Results</a>
+        </nav>
+        <Button href="#assessment" variant="primary" class="ml-8 min-[900px]:ml-0 !px-5 !py-2.5 !text-[14px]">
+          Take the assessment
+        </Button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- 2. Hero -->
+      <section class="relative overflow-hidden border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-[minmax(0,6fr)_minmax(0,6fr)] max-[980px]:grid-cols-1 items-center">
+          <div class="pt-[clamp(56px,8vw,96px)] pb-[clamp(56px,8vw,96px)] px-[clamp(24px,5vw,72px)]" data-reveal>
+            <div class="eyebrow text-brass-bright">
+              <span class="mark" aria-hidden="true"></span>
+              One-on-one video coaching
+            </div>
+            <h1 class="mt-5 text-[clamp(2.75rem,5vw,4.5rem)] leading-[1.03]">
+              Train with a coach on camera.
+              <em class="not-italic text-brass-bright">No guesswork.</em>
+            </h1>
+            <p class="mt-6 text-[18px] leading-[30px] max-w-[46ch] text-cream-muted">
+              One-on-one video training built on four pillars — nutrition, strength, cardio and
+              supplementation — written into a single plan by one coach, delivered straight to your app.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <Button href="#assessment" variant="primary" class="!px-7 !py-4 !text-[16px]">Take the 60-second assessment</Button>
+              <Button href="#how" variant="secondary" class="!px-7 !py-4 !text-[16px]">See how a session runs</Button>
+            </div>
+            <div class="mt-7 flex items-center gap-2.5 text-[13px] text-cream-muted">
+              <span class="mark" aria-hidden="true"></span>
+              4 questions · 60 seconds · no card
+            </div>
+          </div>
+          <div class="relative flex items-center justify-center py-16 px-[clamp(24px,5vw,72px)] max-[980px]:pt-0" data-reveal data-reveal-delay="1">
+            <div class="relative w-full max-w-[420px]">
+              <GrayFigure
+                src="/img/hero-training.jpg"
+                alt="Athlete mid-lift during a coached video training session"
+                aspect="3/4"
+                rounded
+                class="shadow-[var(--shadow-lg)]"
+              />
+              <div data-hero-badge class="hero-badge badge-sheen absolute -bottom-14 -left-14 w-[220px] h-[220px] rounded-full shadow-[var(--shadow-lg)] max-[1180px]:w-[160px] max-[1180px]:h-[160px] max-[1180px]:-bottom-10 max-[1180px]:-left-10">
+                <img src="/logo/4everfit-badge-v2.png" alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="220" height="220" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Stat row -->
+      <section class="bg-bg-raised border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-4 max-[1040px]:grid-cols-2 px-[clamp(24px,5vw,72px)] py-10 gap-x-8 gap-y-8">
+          {stats.map((s) => (
+            <div>
+              <div class="font-display font-semibold text-[clamp(2rem,3vw,2.75rem)] text-brass-bright">
+                {s.value}<span class="text-[0.45em]">{s.unit}</span>
+              </div>
+              <div class="mt-1 text-[13px] text-cream-muted">{s.caption}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- 4. Four pillars -->
+      <section id="pillars" class="py-[clamp(64px,7vw,104px)] px-[clamp(24px,5vw,72px)] border-b border-[color:var(--color-divider)]">
+        <div class="mb-12 max-w-[640px]" data-reveal>
+          <h2 class="text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08]">
+            Pull one out and the whole thing falls over.
+          </h2>
+          <p class="mt-4 text-[17px] leading-[28px] text-cream-muted">
+            Most programs hand you a lifting split and call it done. Every 4Ever Fit plan is written
+            across all four pillars at once, because progress on one without the others is what stalls out.
+          </p>
+        </div>
+        <div class="grid grid-cols-4 max-[1040px]:grid-cols-2 max-[560px]:grid-cols-1 gap-5">
+          {pillars.map((p, i) => (
+            <div class="bg-bg-raised rounded-[var(--radius-lg)] p-6 border border-[color:var(--color-divider)] transition-transform duration-300 hover:-translate-y-1" data-reveal data-reveal-delay={i % 4}>
+              <span class="font-display font-semibold text-[15px] text-brass">{p.index}</span>
+              <h3 class="mt-3 text-[21px] font-display font-semibold">{p.name}</h3>
+              <p class="mt-3 text-[15px] leading-[24px] text-cream-muted">{p.body}</p>
+              <ul class="mt-4 flex flex-wrap gap-1.5 list-none p-0">
+                {p.items.map((it) => <Tag>{it}</Tag>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- 5. How a session runs -->
+      <section id="how" class="bg-bg-raised border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[900px]:grid-cols-1">
+          <GrayFigure
+            src="/img/session-coaching.jpg"
+            alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room"
+            minHeight="460px"
+            class="max-[900px]:min-h-[340px]"
+          />
+          <div class="py-[clamp(48px,6vw,88px)] px-[clamp(24px,5vw,72px)]" data-reveal>
+            <h2 class="text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08]">45 minutes. Camera on. Nothing to figure out.</h2>
+            <div class="mt-8">
+              {sessionSteps.map((step, i) => (
+                <div class:list={['grid grid-cols-[56px_1fr] gap-4 py-5', i > 0 && 'border-t border-[color:var(--color-divider)]']}>
+                  <div class="font-display font-semibold text-[22px] text-brass [font-feature-settings:'tnum'_1]">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div>
+                    <h4 class="text-[18px] font-display font-semibold">{step.title}</h4>
+                    <p class="mt-2 text-[15px] leading-[26px] text-cream-muted">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Assessment — the conversion point -->
+      <section id="assessment" class="py-[clamp(64px,7vw,104px)] px-[clamp(24px,5vw,72px)] border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-[minmax(0,4fr)_minmax(0,7fr)] max-[900px]:grid-cols-1 gap-[clamp(32px,5vw,80px)] items-start">
+          <div data-reveal>
+            <div class="eyebrow text-brass-bright">
+              <span class="mark" aria-hidden="true"></span>
+              The 4-pillar assessment
+            </div>
+            <h2 class="mt-4 text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08]">Four questions. One per pillar.</h2>
+            <p class="mt-4 text-[17px] leading-[28px] max-w-[42ch] text-cream-muted">
+              Sixty seconds, no card, no calls you didn't ask for. Finish it and your starting plan is
+              waiting for you in the 4Ever Fit app.
+            </p>
+          </div>
+
+          <div data-assessment="desktop" class="on-paper bg-paper text-ink rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)] overflow-hidden">
+            <div class="sr-only" aria-live="polite" data-role="live-region"></div>
+            <!-- progress header -->
+            <div class="grid grid-cols-4 border-b border-[color:var(--color-divider-onlight)]">
+              {questions.map((q, i) => (
+                <div
+                  data-progress-item={i}
+                  data-done="false"
+                  class:list={['p-4', i > 0 && 'border-l border-[color:var(--color-divider-onlight)]']}
+                >
+                  <span class="mark-hollow" aria-hidden="true" data-progress-marker></span>
+                  <div class="mt-2 text-[11px] uppercase tracking-[0.06em] text-[color:var(--color-muted)]">{q.pillar}</div>
+                </div>
+              ))}
+            </div>
+
+            <div class="p-8">
+              {questions.map((q, i) => (
+                <fieldset data-step-panel={i} class="border-0 p-0 m-0" aria-labelledby={`d-q${i}-heading`}>
+                  <legend class="sr-only">{q.kicker}</legend>
+                  <div class="text-[12px] tracking-[0.08em] uppercase text-[color:var(--color-brass-deep)]">{q.kicker}</div>
+                  <h3 id={`d-q${i}-heading`} class="mt-2 text-[clamp(1.4rem,2vw,1.9rem)] leading-[1.15] font-display font-semibold">{q.question}</h3>
+                  <div class="mt-5">
+                    {q.options.map((opt) => (
+                      <label class="flex items-center gap-4 px-3 py-4 rounded-[var(--radius-sm)] cursor-pointer hover:bg-[color:var(--color-paper-muted)] transition-colors">
+                        <input type="radio" name={`d-q${i}`} data-step={i} value={opt} class="sr-only" />
+                        <span class="mark-hollow" aria-hidden="true"></span>
+                        <span class="text-[16px]">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              ))}
+
+              <form data-step-panel="capture" hidden>
+                <div class="text-[12px] tracking-[0.08em] uppercase text-[color:var(--color-brass-deep)]">Last step</div>
+                <h3 class="mt-2 text-[clamp(1.4rem,2vw,1.9rem)] leading-[1.15] font-display font-semibold">Where should we send the plan?</h3>
+                <p class="mt-3 text-[15px] leading-[24px] max-w-[46ch] text-[color:var(--color-muted)]">
+                  One email, and your plan is waiting in the app the moment you log in.
+                </p>
+                <div class="mt-5 max-w-[460px] space-y-4">
+                  <Field label="First name" name="d-name" placeholder="Jordan" />
+                  <Field label="Email" name="d-email" type="email" placeholder="you@work.com" required />
+                </div>
+                <p data-role="error" class="mt-3 text-[13px] text-[color:var(--color-brass-deep)]" role="alert" tabindex="-1" hidden></p>
+                <div class="mt-6 flex items-center gap-3">
+                  <Button type="submit" data-action="submit" variant="primary" class="!px-7 !py-3.5">Send my plan</Button>
+                  <Button type="button" data-action="back" variant="secondary" class="!px-7 !py-3.5">Back</Button>
+                </div>
+              </form>
+
+              <div data-step-panel="submitted" hidden>
+                <span class="mark" aria-hidden="true"></span>
+                <h3 data-role="thanks-title" class="mt-3 text-[clamp(1.4rem,2vw,1.9rem)] leading-[1.15] font-display font-semibold">Your assessment is in.</h3>
+                <p class="mt-3 text-[15px] leading-[24px] max-w-[46ch] text-[color:var(--color-muted)]">
+                  Your coach is building your plan now. Get the 4Ever Fit app to log in and see it — that's
+                  where every session, check-in and message with your coach lives from here on.
+                </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                  <a href="#" class="store-badge" aria-label="Download on the App Store">
+                    <span class="store-badge-eyebrow">Download on the</span>
+                    <span class="store-badge-name">App Store</span>
+                  </a>
+                  <a href="#" class="store-badge" aria-label="Get it on Google Play">
+                    <span class="store-badge-eyebrow">Get it on</span>
+                    <span class="store-badge-name">Google Play</span>
+                  </a>
+                </div>
+                <Button type="button" data-action="start-over" variant="secondary" class="mt-5 !px-5 !py-2.5 !text-[13px]">Start over</Button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between px-8 pb-6" data-role="footer-row">
+              <Button type="button" data-action="back" variant="secondary" class="!px-5 !py-2.5 !text-[13px]">Back</Button>
+              <span data-role="progress-label" class="text-[13px] text-[color:var(--color-muted)]"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Coach -->
+      <section id="coach" class="border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[900px]:grid-cols-1">
+          <GrayFigure
+            src="/img/coach-portrait.jpg"
+            alt="Portrait of the coach in a dim private training studio"
+            minHeight="520px"
+          />
+          <div class="py-[clamp(48px,6vw,88px)] px-[clamp(24px,5vw,72px)]" data-reveal>
+            <h2 class="text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08]">One coach. Your whole file.</h2>
+            <p class="mt-5 text-[17px] leading-[28px] max-w-[52ch] text-cream-muted">
+              Every plan — nutrition, strength, cardio and supplementation — is written and read by the
+              same person, so nothing falls between four different apps.
+            </p>
+            <p class="mt-4 text-[17px] leading-[28px] max-w-[52ch] text-cream-muted">
+              Fifteen years coaching on camera, credentialed across strength and nutrition, and every
+              session logged into one file your coach actually reads before writing your week.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-2.5 max-w-[440px]">
+              {credentialsDesktop.map((c) => (
+                <span class="text-[13px] font-medium px-3.5 py-2 rounded-full bg-bg-raised border border-[color:var(--color-divider)]">{c}</span>
+              ))}
+            </div>
+            <p class="mt-4 text-[12px] text-[color:var(--color-cream-muted)]">Placeholder credentials — confirm with client before launch.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Results gallery -->
+      <section id="results" class="py-[clamp(64px,7vw,104px)] px-[clamp(24px,5vw,72px)] border-b border-[color:var(--color-divider)]">
+        <h2 class="text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08] max-w-[20ch]" data-reveal>Twelve weeks of doing the boring things.</h2>
+        <div class="mt-10 grid grid-cols-3 max-[900px]:grid-cols-1 gap-6">
+          {results.map((r, i) => (
+            <div class="on-paper bg-paper rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-md)]" data-reveal data-reveal-delay={i}>
+              <div class="grid grid-cols-2 gap-[2px] bg-[color:var(--color-divider-onlight)]">
+                <GrayFigure src={`https://picsum.photos/seed/${r.before}/600/800`} alt={`${r.name} before, at the start of the program`} aspect="3/4" />
+                <GrayFigure src={`https://picsum.photos/seed/${r.after}/600/800`} alt={`${r.name} after completing the program`} aspect="3/4" />
+              </div>
+              <div class="p-4 flex items-baseline justify-between">
+                <span class="text-[13px] text-[color:var(--color-muted)]">{r.name} · {r.duration}</span>
+                <span class="text-[13px] font-display font-semibold text-[color:var(--color-brass-deep)]">{r.stat}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="mt-5 text-[12px] text-[color:var(--color-cream-muted)]">Placeholder photography and results — replace before launch.</p>
+      </section>
+
+      <!-- 9. Testimonials -->
+      <section class="grid grid-cols-3 max-[900px]:grid-cols-1 border-b border-[color:var(--color-divider)]">
+        {testimonials.map((t, i) => (
+          <div class:list={['py-[clamp(40px,4vw,64px)] px-[clamp(24px,3vw,48px)]', i > 0 && 'border-l max-[900px]:border-l-0 max-[900px]:border-t border-[color:var(--color-divider)]']}>
+            <blockquote class="m-0 font-display italic text-[clamp(1.15rem,1.5vw,1.4rem)] leading-[1.4]">
+              &ldquo;{t.quote}&rdquo;
+            </blockquote>
+            <div class="mt-4 text-[13px] text-cream-muted">{t.name} · {t.role}</div>
+          </div>
+        ))}
+      </section>
+
+      <!-- 10. FAQ -->
+      <section class="py-[clamp(64px,7vw,104px)] px-[clamp(24px,5vw,72px)] border-b border-[color:var(--color-divider)]">
+        <div class="grid grid-cols-[minmax(0,4fr)_minmax(0,8fr)] max-[900px]:grid-cols-1 gap-8">
+          <h2 class="text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.08]">Before you book.</h2>
+          <div>
+            {faqItems.map((item, i) => (
+              <details name="faq-desktop" open={i === 0} class:list={[i > 0 && 'border-t border-[color:var(--color-divider)]']}>
+                <summary class="flex items-center justify-between gap-4 py-5 font-display font-semibold text-[19px] hover:text-brass-bright transition-colors">
+                  <span>{item.q}</span>
+                  <span class="acc-sign text-brass text-[22px] font-normal" aria-hidden="true"></span>
+                </summary>
+                <p class="pb-5 text-[16px] leading-[28px] max-w-[62ch] text-cream-muted">
+                  {item.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. Closing banner -->
+      <section class="bg-brass text-ink py-[clamp(56px,6vw,96px)] px-[clamp(24px,5vw,72px)] border-b border-[color:var(--color-divider)]">
+        <h2 class="font-display font-semibold text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] max-w-[16ch]">
+          Four pillars. One coach. Starting Monday.
+        </h2>
+        <div class="mt-8 flex items-center gap-5 flex-wrap">
+          <Button href="#assessment" variant="inverted" class="!px-7 !py-4 !text-[16px]">Take the assessment</Button>
+          <span class="text-[14px] font-medium">4 questions · 60 seconds</span>
+        </div>
+      </section>
+
+      <!-- 12. Footer -->
+      <footer class="py-10 px-[clamp(24px,5vw,72px)] flex items-center justify-between flex-wrap gap-4">
+        <Logo href="#top" size="28px" />
+        <div class="text-[13px] text-cream-muted">Nutrition · Strength · Cardio · Supplementation</div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ═══════════════════════════ MOBILE ═══════════════════════════
+       A dedicated small-breakpoint experience (drawer nav, accordion
+       pillars, carousels, sticky CTA bar) — not the desktop page shrunk. -->
+  <div class="sm:hidden bg-bg text-cream">
+    <div class="relative pb-[100px]">
+      <!-- 1. Sticky header -->
+      <header class="sticky top-0 z-[var(--z-sticky)] bg-bg/90 backdrop-blur-sm border-b border-[color:var(--color-divider)] flex items-center justify-between px-5 py-3">
+        <Logo href="#m-top" size="34px" showTag={false} />
+        <button
+          type="button"
+          data-drawer-trigger
+          aria-expanded="false"
+          aria-controls="mobile-drawer"
+          aria-label="Open menu"
+          class="w-11 h-11 flex flex-col items-end justify-center gap-[5px]"
+        >
+          <span class="block w-6 h-[2px] rounded-full bg-cream" aria-hidden="true"></span>
+          <span class="block w-6 h-[2px] rounded-full bg-cream" aria-hidden="true"></span>
+          <span class="block w-4 h-[2px] rounded-full bg-brass" aria-hidden="true"></span>
+        </button>
+      </header>
+
+      <!-- 2. Full-screen drawer -->
+      <div id="mobile-drawer" data-drawer hidden role="dialog" aria-modal="true" aria-label="Menu" class="fixed inset-0 z-[var(--z-modal)] bg-bg-raised text-cream flex flex-col p-5">
+        <div class="flex justify-end">
+          <button type="button" data-drawer-close class="text-[14px] font-medium py-2">Close</button>
+        </div>
+        <nav class="mt-8 flex flex-col">
+          {['Pillars', 'Sessions', 'Coach', 'Results'].map((label) => (
+            <a data-drawer-link href={`#m-${label.toLowerCase()}`} class="border-t border-[color:var(--color-divider)] py-5 text-[28px] font-display font-semibold text-cream">
+              {label}
+            </a>
+          ))}
+        </nav>
+        <Button href="#m-assessment" data-drawer-link variant="primary" block class="mt-auto !py-4">
+          Take the assessment
+        </Button>
+      </div>
+
+      <main id="m-top">
+        <!-- 3. Hero -->
+        <section class="border-b border-[color:var(--color-divider)]">
+          <div class="px-5 pt-8 pb-8">
+            <div class="eyebrow text-brass-bright">
+              <span class="mark" aria-hidden="true"></span>
+              One-on-one video coaching
+            </div>
+            <h1 class="mt-3 text-[2.5rem] leading-[1.05]">
+              Train with a coach on camera. <em class="not-italic text-brass-bright">No guesswork.</em>
+            </h1>
+            <p class="mt-4 text-[16px] leading-[26px] text-cream-muted">
+              One-on-one video training across four pillars, written into a single plan by one coach —
+              delivered straight to your app.
+            </p>
+            <Button href="#m-assessment" variant="primary" block class="mt-6 !py-4">Take the 60-second assessment</Button>
+          </div>
+          <div class="relative">
+            <GrayFigure
+              src="/img/hero-training.jpg"
+              alt="Athlete mid-lift during a coached video training session"
+              minHeight="360px"
+            />
+            <div data-hero-badge class="hero-badge badge-sheen absolute -bottom-9 left-4 w-[130px] h-[130px] rounded-full shadow-[var(--shadow-lg)]">
+              <img src="/logo/4everfit-badge-v2.png" alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="130" height="130" />
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Stat block 2x2 -->
+        <section class="bg-bg-raised border-b border-[color:var(--color-divider)]">
+          <div class="grid grid-cols-2 gap-6 px-5 py-8">
+            {stats.map((s) => (
+              <div>
+                <div class="font-display font-semibold text-[30px] text-brass-bright">{s.value}<span class="text-[0.45em]">{s.unit}</span></div>
+                <div class="mt-1 text-[12px] text-cream-muted">{s.caption}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- 5. Pillars accordion -->
+        <section id="m-pillars" class="px-5 py-9 border-b border-[color:var(--color-divider)]">
+          <h2 class="text-[28px] leading-[1.08]">Pull one out and the whole thing falls over.</h2>
+          <p class="mt-3 text-[15px] leading-[26px] text-cream-muted">
+            Tap a pillar to see how we run it.
+          </p>
+          <div class="mt-5">
+            {pillars.map((p, i) => (
+              <details name="pillars-mobile" open={i === 0} class:list={['border-t border-[color:var(--color-divider)]', i === pillars.length - 1 && 'border-b']}>
+                <summary class="min-h-16 flex items-center gap-3 py-4">
+                  <span class="font-display font-semibold text-[14px] text-brass">{p.index}</span>
+                  <span class="flex-1 font-display font-semibold text-[17px]">{p.name}</span>
+                  <span class="acc-sign text-brass text-[20px] font-normal" aria-hidden="true"></span>
+                </summary>
+                <div class="pb-5">
+                  <p class="text-[15px] leading-[26px] text-cream-muted">{p.body}</p>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {p.items.map((it) => <Tag>{it}</Tag>)}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <!-- 6. How a session runs -->
+        <section class="bg-bg-raised border-b border-[color:var(--color-divider)]">
+          <GrayFigure src="/img/session-coaching.jpg" alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room" minHeight="280px" />
+          <div class="px-5 py-8">
+            <h2 class="text-[28px] leading-[1.08]">45 minutes. Camera on. Nothing to figure out.</h2>
+            <div class="mt-6">
+              {sessionSteps.map((step, i) => (
+                <div class:list={['grid grid-cols-[44px_1fr] gap-3 py-4', i > 0 && 'border-t border-[color:var(--color-divider)]']}>
+                  <div class="font-display font-semibold text-[18px] text-brass">{String(i + 1).padStart(2, '0')}</div>
+                  <div>
+                    <h4 class="text-[17px] font-display font-semibold">{step.title}</h4>
+                    <p class="mt-1.5 text-[15px] leading-[24px] text-cream-muted">{step.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Assessment -->
+        <section id="m-assessment" class="border-b border-[color:var(--color-divider)]">
+          <div data-assessment="mobile" class="on-paper bg-paper text-ink">
+            <div class="sr-only" aria-live="polite" data-role="live-region"></div>
+            <div class="flex gap-1.5 px-5 pt-6">
+              {questions.map((q, i) => (
+                <div class="flex-1" data-progress-item={i} data-done="false">
+                  <div class="h-[5px] rounded-full bg-[color:var(--color-divider-onlight)]" data-progress-marker></div>
+                  <div class="mt-1.5 text-[10px] uppercase tracking-[0.05em] text-[color:var(--color-muted)]">{q.pillar}</div>
+                </div>
+              ))}
+            </div>
+
+            <div class="px-5 py-6">
+              {questions.map((q, i) => (
+                <fieldset data-step-panel={i} class="border-0 p-0 m-0" aria-labelledby={`m-q${i}-heading`}>
+                  <legend class="sr-only">{q.kicker}</legend>
+                  <div class="text-[11px] tracking-[0.08em] uppercase text-[color:var(--color-brass-deep)]">{q.kicker}</div>
+                  <h3 id={`m-q${i}-heading`} class="mt-2 text-[22px] leading-[1.15] font-display font-semibold">{q.question}</h3>
+                  <div class="mt-4 -mx-5">
+                    {q.options.map((opt) => (
+                      <label class="min-h-[60px] flex items-center gap-4 px-5 py-3 border-b border-[color:var(--color-divider-onlight)] cursor-pointer active:bg-[color:var(--color-paper-muted)]">
+                        <input type="radio" name={`m-q${i}`} data-step={i} value={opt} class="sr-only" />
+                        <span class="mark-hollow" aria-hidden="true"></span>
+                        <span class="text-[16px]">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              ))}
+
+              <form data-step-panel="capture" hidden>
+                <div class="text-[11px] tracking-[0.08em] uppercase text-[color:var(--color-brass-deep)]">Last step</div>
+                <h3 class="mt-2 text-[22px] leading-[1.15] font-display font-semibold">Where should we send the plan?</h3>
+                <p class="mt-2 text-[15px] leading-[24px] text-[color:var(--color-muted)]">One email, then it's in the app.</p>
+                <div class="mt-4 space-y-4">
+                  <Field label="First name" name="m-name" placeholder="Jordan" />
+                  <Field label="Email" name="m-email" type="email" placeholder="you@work.com" required />
+                </div>
+                <p data-role="error" class="mt-3 text-[13px] text-[color:var(--color-brass-deep)]" role="alert" tabindex="-1" hidden></p>
+                <Button type="submit" data-action="submit" variant="primary" block class="mt-5 !py-[14px] !min-h-[52px]">Send my plan</Button>
+                <div class="mt-3 flex justify-start">
+                  <Button type="button" data-action="back" variant="secondary" class="!px-4 !py-2 !text-[13px]">Back</Button>
+                </div>
+              </form>
+
+              <div data-step-panel="submitted" hidden>
+                <span class="mark" aria-hidden="true"></span>
+                <h3 data-role="thanks-title" class="mt-3 text-[22px] leading-[1.15] font-display font-semibold">Your assessment is in.</h3>
+                <p class="mt-2 text-[15px] leading-[24px] text-[color:var(--color-muted)]">
+                  Your coach is building your plan now — get the app to log in and see it.
+                </p>
+                <div class="mt-4 flex flex-col gap-2.5">
+                  <a href="#" class="store-badge" aria-label="Download on the App Store">
+                    <span class="store-badge-eyebrow">Download on the</span>
+                    <span class="store-badge-name">App Store</span>
+                  </a>
+                  <a href="#" class="store-badge" aria-label="Get it on Google Play">
+                    <span class="store-badge-eyebrow">Get it on</span>
+                    <span class="store-badge-name">Google Play</span>
+                  </a>
+                </div>
+                <Button type="button" data-action="start-over" variant="secondary" class="mt-4 !px-4 !py-2 !text-[13px]">Start over</Button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between px-5 pb-5" data-role="footer-row">
+              <Button type="button" data-action="back" variant="secondary" hidden class="!px-4 !py-2 !text-[13px]">Back</Button>
+              <span data-role="progress-label" class="text-[13px] text-[color:var(--color-muted)] ml-auto"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. Coach -->
+        <section id="m-coach" class="border-b border-[color:var(--color-divider)]">
+          <GrayFigure src="/img/coach-portrait.jpg" alt="Portrait of the coach in a dim private training studio" minHeight="360px" />
+          <div class="px-5 py-8">
+            <h2 class="text-[28px] leading-[1.08]">One coach. Your whole file.</h2>
+            <p class="mt-3 text-[15px] leading-[26px] text-cream-muted">
+              Every plan — nutrition, strength, cardio and supplementation — is written and read by the
+              same person.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {credentialsMobile.map((c) => (
+                <span class="text-[12px] font-medium px-3 py-1.5 rounded-full bg-bg border border-[color:var(--color-divider)]">{c}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. Results carousel -->
+        <section id="m-results" class="py-8 border-b border-[color:var(--color-divider)]">
+          <div class="px-5">
+            <h2 class="text-[28px] leading-[1.08]">Twelve weeks of doing the boring things.</h2>
+            <div class="mt-1 text-[13px] text-cream-muted">Swipe →</div>
+          </div>
+          <div class="mt-4 flex gap-4 overflow-x-auto no-scrollbar px-5" style="scroll-snap-type: x mandatory;">
+            {results.map((r) => (
+              <div class="on-paper bg-paper rounded-[var(--radius-lg)] overflow-hidden shadow-[var(--shadow-md)] flex-none w-[260px]" style="scroll-snap-align: start;">
+                <div class="grid grid-cols-2 gap-[2px] bg-[color:var(--color-divider-onlight)]">
+                  <GrayFigure src={`https://picsum.photos/seed/${r.before}/600/800`} alt={`${r.name} before, at the start of the program`} aspect="3/4" />
+                  <GrayFigure src={`https://picsum.photos/seed/${r.after}/600/800`} alt={`${r.name} after completing the program`} aspect="3/4" />
+                </div>
+                <div class="p-3 flex items-baseline justify-between">
+                  <span class="text-[12px] text-[color:var(--color-muted)]">{r.name} · {r.duration}</span>
+                  <span class="text-[12px] font-display font-semibold text-[color:var(--color-brass-deep)]">{r.statShort}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- 10. Testimonials carousel -->
+        <section class="py-8 border-b border-[color:var(--color-divider)]">
+          <div class="flex gap-0 overflow-x-auto no-scrollbar px-5" style="scroll-snap-type: x mandatory;">
+            {testimonials.map((t) => (
+              <div class="flex-none w-[300px] pl-4 border-l border-[color:var(--color-divider)]" style="scroll-snap-align: start;">
+                <blockquote class="m-0 font-display italic text-[18px] leading-[1.4]">&ldquo;{t.quote}&rdquo;</blockquote>
+                <div class="mt-3 text-[12px] text-cream-muted">{t.name} · {t.role}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- 11. FAQ -->
+        <section class="px-5 py-9 border-b border-[color:var(--color-divider)]">
+          <h2 class="text-[28px] leading-[1.08]">Before you book.</h2>
+          <div class="mt-4">
+            {faqItems.map((item, i) => (
+              <details name="faq-mobile" class:list={[i > 0 && 'border-t border-[color:var(--color-divider)]', i === faqItems.length - 1 && 'border-b border-[color:var(--color-divider)]']}>
+                <summary class="min-h-[60px] flex items-center justify-between gap-4 py-4 font-display font-semibold text-[17px]">
+                  <span>{item.q}</span>
+                  <span class="acc-sign text-brass text-[20px] font-normal shrink-0" aria-hidden="true"></span>
+                </summary>
+                <p class="pb-4 text-[15px] leading-[26px] text-cream-muted">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <!-- 12. Closing banner -->
+        <section class="bg-brass text-ink px-5 py-10 border-b border-[color:var(--color-divider)]">
+          <h2 class="font-display font-semibold text-[34px] leading-[1.08]">Four pillars. One coach. Starting Monday.</h2>
+          <Button href="#m-assessment" variant="inverted" block class="mt-6 !py-4">Take the assessment</Button>
+        </section>
+
+        <!-- 13. Footer -->
+        <footer class="px-5 py-9 flex flex-col gap-3">
+          <Logo href="#m-top" size="28px" />
+          <div class="text-[13px] text-cream-muted">Nutrition · Strength · Cardio · Supplementation</div>
+        </footer>
+      </main>
+
+      <!-- 14. Sticky bottom CTA bar -->
+      <div class="fixed bottom-0 left-0 right-0 z-[var(--z-sticky)] bg-bg/95 backdrop-blur-sm border-t border-[color:var(--color-divider)] flex items-center gap-3" style="padding: 12px 20px 34px;">
+        <Button href="#m-assessment" variant="primary" class="flex-1 !py-3.5 justify-center">
+          Take the assessment
+        </Button>
+        <span class="w-[70px] text-[10px] leading-[1.2] text-cream-muted">4 questions · 60s</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/assessment.ts';
+    import '../scripts/drawer.ts';
+  </script>
+
+  <script>
+    // Intro handoff — plays badge-intro.mp4 full-viewport, then fades the
+    // overlay while the (now larger) hero badge pops in at the same moment,
+    // so the badge that just assembled itself reads as the same object
+    // landing in the hero. Once per session (sessionStorage), skippable,
+    // and fully reduced-motion safe: with reduced motion the overlay never
+    // shows and the hero badge is simply visible from the start — the hero
+    // itself is real, readable content underneath the whole time, never
+    // gated behind the intro.
+    const SEEN_KEY = '4everfit-intro-seen';
+    const overlay = document.getElementById('intro-overlay');
+    const video = document.getElementById('intro-video') as HTMLVideoElement | null;
+    const skipBtn = document.getElementById('intro-skip');
+    const heroBadges = document.querySelectorAll<HTMLElement>('[data-hero-badge]');
+    const prefersReducedIntro = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const alreadySeen = (() => {
+      try {
+        return sessionStorage.getItem(SEEN_KEY) === '1';
+      } catch {
+        return false;
+      }
+    })();
+
+    function landHero() {
+      heroBadges.forEach((el) => el.classList.add('is-landed'));
+    }
+
+    function finishIntro() {
+      if (overlay) {
+        overlay.classList.add('intro-done');
+        document.body.style.overflow = '';
+        window.setTimeout(() => overlay.remove(), 700);
+      }
+      landHero();
+      try {
+        sessionStorage.setItem(SEEN_KEY, '1');
+      } catch {
+        /* private browsing — fine to skip persisting */
+      }
+    }
+
+    if (!overlay || !video || prefersReducedIntro || alreadySeen) {
+      overlay?.remove();
+      landHero();
+    } else {
+      document.body.style.overflow = 'hidden';
+      video.addEventListener('ended', finishIntro);
+      // Fallback in case autoplay is blocked or the video fails to load —
+      // never let the intro trap the page.
+      window.setTimeout(finishIntro, 7000);
+      skipBtn?.addEventListener('click', finishIntro);
+      video.play().catch(finishIntro);
+    }
+  </script>
+
+  <script>
+    // Lightweight reveal-on-scroll — staggered per item, honors reduced motion.
+    // Content is visible by default (no class-gated hidden state), so this
+    // only enhances an already-rendered page.
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced && 'IntersectionObserver' in window) {
+      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              const delay = Number(el.dataset.revealDelay ?? 0) * 80;
+              el.style.transitionDelay = `${delay}ms`;
+              el.classList.add('is-revealed');
+              io.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      items.forEach((el) => {
+        el.classList.add('reveal-init');
+        io.observe(el);
+      });
+    }
+  </script>
+
+  <style is:global>
+    #intro-overlay {
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #intro-overlay.intro-done {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #intro-video {
+      object-fit: cover;
+      background: var(--color-bg);
+    }
+
+    /* Hero badge starts small/invisible and pops in the instant the intro
+       hands off — landing bigger than its old resting size so it reads as
+       an arrival, not just a fade. No bounce (ease-out-expo only). */
+    .hero-badge {
+      opacity: 0;
+      transform: scale(0.55);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-badge.is-landed {
+      opacity: 1;
+      transform: scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-badge {
+        transition: none;
+      }
+    }
+
+    [data-reveal].reveal-init {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-reveal].is-revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    .store-badge {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1px;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+      color: var(--color-ink);
+      line-height: 1.15;
+      transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+    }
+    .store-badge:hover {
+      border-color: var(--color-brass);
+      background: var(--color-paper-muted);
+    }
+    .store-badge-eyebrow {
+      font-size: 10px;
+      color: var(--color-muted);
+    }
+    .store-badge-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 15px;
+    }
+  </style>
+</Layout>
