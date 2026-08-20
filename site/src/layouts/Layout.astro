@@ -3,27 +3,28 @@ import '../styles/fonts.css';
 import '../styles/global.css';
 
 interface Props {
-  title?: string;
-  description?: string;
+title?: string;
+description?: string;
 }
 const {
-  title = '4Ever Fit Lifestyle — One-on-one video coaching, four pillars, one app',
-  description = 'One-on-one video personal training built on four pillars: nutrition, strength, cardio, supplementation. Take the 60-second assessment and get your plan in the 4Ever Fit app.',
+title = '4Ever Fit Lifestyle — One-on-one video coaching, four pillars, one app',
+description = 'One-on-one video personal training built on four pillars: nutrition, strength, cardio, supplementation. Take the 60-second assessment and get your plan in the 4Ever Fit app.',
 } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/fraunces-latin-full-normal.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-400-normal.woff2" crossorigin />
-  </head>
-  <body>
-    <slot />
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="preload" as="font" type="font/woff2" href={`${base}fonts/fraunces-latin-full-normal.woff2`} crossorigin />
+<link rel="preload" as="font" type="font/woff2" href={`${base}fonts/inter-latin-400-normal.woff2`} crossorigin />
+</head>
+<body>
+<slot />
+</body>
 </html>
