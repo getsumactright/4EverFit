@@ -46,16 +46,7 @@
   --color-brass: #a3792e;          /* icons, dividers, large numerals, button fills */
   --color-brass-bright: #7f5c1e;   /* emphasis text, hover state */
   --color-brass-deep: #7c5a24;     /* accent-colored body text on paper (5.1:1) */
-  --color-brass-deep-ondark: #e7c483; /* accent text on a dark surface — the intro overlay */
-
-  /* Intro overlay. badge-intro.mp4 has a near-black ground baked into the
-     frame (a leftover from the abandoned dark palette), so the overlay is
-     painted to match it exactly — the video tile then dissolves into the
-     overlay instead of reading as a dark square on cream, and the whole
-     dark field fades away to reveal the light page. Sampled from the video
-     at several timestamps: rgb(22,20,16). */
-  --color-intro-ground: #161410;
-  --color-intro-ink: #b8a98e;      /* skip-button text on that ground (8.1:1) */
+  --color-brass-deep-ondark: #e7c483; /* unused currently — kept for a future dark-surface accent need */
 
   --color-divider: color-mix(in srgb, var(--color-cream) 14%, transparent);
   --color-divider-onlight: color-mix(in srgb, var(--color-ink) 12%, transparent);

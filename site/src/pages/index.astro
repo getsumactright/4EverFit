@@ -134,24 +134,24 @@ const faqItems = [
 
 <Layout>
   <!-- ═══════════════════════════ INTRO ═══════════════════════════
-       Plays once per session before the hero. Video hands off into the
-       hero badge: the overlay fades, the (now larger) hero badge pops in
-       in sync, so the badge that assembled itself in the intro reads as
-       the same object landing in the hero. Skippable, reduced-motion
-       safe, and never blocks content — the hero is fully in the DOM and
-       readable underneath the whole time. -->
-  <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] flex items-center justify-center">
-    <video
-      id="intro-video"
-      class="w-[min(66vw,440px)] aspect-square rounded-[var(--radius-lg)]"
-      src="/video/badge-intro.mp4"
-      poster="/video/badge-intro-poster.jpg"
-      autoplay
-      muted
-      playsinline
-      preload="auto"
-      aria-hidden="true"
-    ></video>
+       Plays once per session before the hero. The badge arrives as one
+       object — scale + fade on ease-out-expo, then a single bronze sheen
+       pass — and hands off to the hero badge, which is the same asset on
+       the same ground, so the arrival reads as one continuous object.
+
+       This replaced badge-intro.mp4 (kept at tag intro-video-v1). That
+       clip had the abandoned dark palette baked into its pixels, so it
+       could never follow the theme and needed a dark overlay to hide the
+       mismatch; it also cost 1.5MB and ran 1.3s of frozen frame. Built
+       from CSS on the existing transparent PNG, the intro takes its
+       colours from the same tokens as the rest of the page.
+
+       Skippable, reduced-motion safe, and never blocks content — the hero
+       is fully in the DOM and readable underneath the whole time. -->
+  <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] bg-bg flex items-center justify-center">
+    <div id="intro-badge" class="intro-sheen w-[min(62vw,420px)]" aria-hidden="true">
+      <img src="/logo/4everfit-badge-v2.png" alt="" width="1374" height="1145" class="w-full h-auto" />
+    </div>
     <button type="button" id="intro-skip" aria-label="Skip intro animation" class="intro-skip absolute bottom-8 right-8 text-[13px] transition-colors">
       Skip intro
     </button>
@@ -819,23 +819,21 @@ const faqItems = [
   </script>
 
   <script>
-    // Intro handoff — plays badge-intro.mp4 full-viewport, then fades the
-    // overlay while the (now larger) hero badge pops in at the same moment,
-    // so the badge that just assembled itself reads as the same object
-    // landing in the hero. Once per session (sessionStorage), skippable,
-    // and fully reduced-motion safe: with reduced motion the overlay never
-    // shows and the hero badge is simply visible from the start — the hero
-    // itself is real, readable content underneath the whole time, never
-    // gated behind the intro.
+    // Intro handoff — the badge arrives full-viewport, then the overlay
+    // fades while the (now larger) hero badge pops in at the same moment.
+    // Both are the same transparent PNG on the same cream ground, so it
+    // reads as one object settling into place. Once per session
+    // (sessionStorage), skippable, and fully reduced-motion safe: with
+    // reduced motion the overlay never shows and the hero badge is simply
+    // visible from the start — the hero itself is real, readable content
+    // underneath the whole time, never gated behind the intro.
     const SEEN_KEY = '4everfit-intro-seen';
-    // badge-intro.mp4 is 5.04s long but the badge finishes assembling at
-    // ~3.7s — sampling frame-to-frame difference, motion drops to noise
-    // (delta ~0.5) from 3.8s and the remaining 1.3s is a frozen frame.
-    // Hand off when the animation is actually done rather than when the
-    // file runs out; the 0.6s overlay fade covers the seam.
-    const HANDOFF_AT = 3.8;
+    // Timings are set in CSS (--intro-arrive-dur / --intro-sheen-delay /
+    // --intro-sheen-dur); the handoff follows the sheen's animationend, so
+    // this is only the failsafe for browsers that never fire it.
+    const HANDOFF_AFTER_MS = 3600;
     const overlay = document.getElementById('intro-overlay');
-    const video = document.getElementById('intro-video') as HTMLVideoElement | null;
+    const badge = document.getElementById('intro-badge');
     const skipBtn = document.getElementById('intro-skip');
     const heroBadges = document.querySelectorAll<HTMLElement>('[data-hero-badge]');
     const prefersReducedIntro = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -865,7 +863,7 @@ const faqItems = [
       }
     }
 
-    if (!overlay || !video || prefersReducedIntro || alreadySeen) {
+    if (!overlay || !badge || prefersReducedIntro || alreadySeen) {
       overlay?.remove();
       landHero();
     } else {
@@ -876,17 +874,14 @@ const faqItems = [
         handedOff = true;
         finishIntro();
       };
-      video.addEventListener('timeupdate', () => {
-        if (video.currentTime >= HANDOFF_AT) handOff();
+      // Drive off the sheen actually finishing rather than a bare timer, so
+      // the handoff stays in step if the timing is retuned in CSS. The timer
+      // is the failsafe for browsers without animation events.
+      badge.addEventListener('animationend', (e) => {
+        if ((e as AnimationEvent).animationName === 'intro-sheen-once') handOff();
       });
-      // Backstop if timeupdate never reaches the mark (short decode, seek).
-      video.addEventListener('ended', handOff);
-      // Failsafe for a stalled load — autoplay being blocked is caught by
-      // the play() rejection below, so this only covers a hung network.
-      // Never let the intro trap the page.
-      window.setTimeout(handOff, 5000);
+      window.setTimeout(handOff, HANDOFF_AFTER_MS + 900);
       skipBtn?.addEventListener('click', handOff);
-      video.play().catch(handOff);
     }
   </script>
 
@@ -920,27 +915,76 @@ const faqItems = [
 
   <style is:global>
     #intro-overlay {
-      background: var(--color-intro-ground);
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    /* The cream/ink tokens all resolve dark on this ground since the palette
-       flipped light, so the skip control gets its own pair. */
     .intro-skip {
-      color: var(--color-intro-ink);
+      color: var(--color-muted);
     }
     .intro-skip:hover,
     .intro-skip:focus-visible {
-      color: var(--color-brass-deep-ondark);
+      color: var(--color-brass-deep);
+    }
+
+    /* The badge arrives as one object. Ease-out-expo, no bounce, per
+       DESIGN.md's motion rule. */
+    @keyframes intro-arrive {
+      from { opacity: 0; transform: scale(0.82); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    /* Pacing lives here — these three are the whole timeline. The handoff
+       follows the sheen's animationend, so changing them keeps everything
+       in step without touching the script. */
+    #intro-overlay {
+      --intro-arrive-dur: 1.3s;
+      --intro-sheen-delay: 0.6s;
+      --intro-sheen-dur: 2.8s;
+    }
+    #intro-badge {
+      animation: intro-arrive var(--intro-arrive-dur) cubic-bezier(0.16, 1, 0.3, 1) both;
+      will-change: opacity, transform;
+    }
+
+    /* One bronze sheen pass as it lands — the badge's single signature
+       move, not a loop. Masked to the badge silhouette so the highlight
+       rides the metal instead of sweeping a rectangle: the artwork is a
+       transparent PNG and the barbell juts well outside any simple shape. */
+    @keyframes intro-sheen-once {
+      from { background-position: -120% 0; }
+      to   { background-position: 220% 0; }
+    }
+    .intro-sheen {
+      position: relative;
+    }
+    .intro-sheen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        100deg,
+        transparent 42%,
+        color-mix(in srgb, var(--color-brass-bright) 42%, transparent) 50%,
+        transparent 58%
+      );
+      background-size: 300% 100%;
+      -webkit-mask-image: url("/logo/4everfit-badge-v2.png");
+              mask-image: url("/logo/4everfit-badge-v2.png");
+      -webkit-mask-size: contain;
+              mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+              mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+              mask-position: center;
+      animation: intro-sheen-once var(--intro-sheen-dur) ease-in-out var(--intro-sheen-delay) both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #intro-badge { animation: none; }
+      .intro-sheen::after { animation: none; display: none; }
     }
     #intro-overlay.intro-done {
       opacity: 0;
       pointer-events: none;
     }
-    #intro-video {
-      object-fit: cover;
-      background: var(--color-intro-ground);
-    }
-
     /* Hero badge starts small/invisible and pops in the instant the intro
        hands off — landing bigger than its old resting size so it reads as
        an arrival, not just a fade. No bounce (ease-out-expo only). */
