@@ -42,8 +42,6 @@ different, since-abandoned logo direction and no longer applies.
 
 ## Known gaps before this ships
 
-- **Fonts are loaded from Google Fonts** (Fraunces + Inter), not self-hosted — swap for self-hosted
-  `@font-face` in `src/layouts/Layout.astro` before launch.
 - **AI-generated placeholder photography** (hero/session/coach) and **picsum.photos placeholder
   photography** (results) — both need replacing with real client photography before launch, along with all
   placeholder body copy, credentials, client names/results, and FAQ answers.
@@ -52,7 +50,23 @@ different, since-abandoned logo direction and no longer applies.
   CRM/ESP) before launch.
 - **App Store / Google Play links are `href="#"` placeholders** in the assessment's confirmation state —
   point them at the real app listings once published.
-- This sandbox couldn't run a headless browser for a final visual QA pass (no system deps, no sudo) — the
-  production build (`npm run build`) completes cleanly and was checked structurally, but run `npm run dev`
-  and eyeball all four lockups (desktop nav/footer, mobile header/footer) and both breakpoints for real
-  before shipping.
+- **`DESIGN.md`'s dark-ground "Cast Bronze" palette values are stale** — the implemented palette in
+  `src/styles/global.css` was later revised to an all-light warm-cream ground (`--color-bg: #efe9dd`, no
+  near-black surface anywhere), but `DESIGN.md` still documents the original dark-ground tokens
+  (`--color-bg: #17130f`, etc). Reconcile the doc with the shipped palette, or decide which one is correct
+  and bring the other in line, before treating `DESIGN.md` as a source of truth.
+
+## Fixed since the last handoff
+
+- **Fonts are now self-hosted** — Fraunces (variable) + Inter, latin/latin-ext subsets, in
+  `src/styles/fonts.css` and `public/fonts/`, sourced from `@fontsource-variable/fraunces` and
+  `@fontsource/inter` (kept as devDependencies for re-export if more weights/subsets are needed later). No
+  more Google Fonts CDN request.
+- **Fixed a real navigation dead zone**: the header's full nav links only appear at `min-[900px]`, and the
+  dedicated mobile tree (with its own drawer) is `sm:hidden` (i.e. gone at ≥640px) — so any viewport from
+  640–899px (common tablet/small-laptop widths) had no way to reach Pillars/How it works/Coach/Results: no
+  visible links, no hamburger. Added a second hamburger + drawer scoped to the desktop tree for that range
+  (`src/pages/index.astro`, `#tablet-drawer`), and generalized `src/scripts/drawer.ts` to drive multiple
+  independent trigger/drawer pairs via `aria-controls`/`id` matching instead of a single
+  `querySelector`. Also fixed the header's CTA button hugging the logo instead of sitting at the right edge
+  in that same width range (the nav's `ml-auto` did nothing once the nav itself was `display:none`).

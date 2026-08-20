@@ -1,14 +1,15 @@
-// Mobile full-screen nav drawer — focus trap, Esc to close, aria-expanded
-// on the trigger, body scroll lock, return focus on close. The design
+// Full-screen nav drawer(s) — focus trap, Esc to close, aria-expanded on
+// the trigger, body scroll lock, return focus on close. The design
 // reference used a `position: sticky` workaround for the drawer (see
 // README's implementation note); this uses `position: fixed; inset: 0` as
 // the doc recommends for production.
+//
+// Each trigger is paired with its drawer via aria-controls/id, so the page
+// can host more than one independent drawer (e.g. the true-mobile drawer
+// below 640px and a separate tablet-range drawer for 640–899px).
 
-function initDrawer() {
-  const trigger = document.querySelector<HTMLButtonElement>('[data-drawer-trigger]');
-  const drawer = document.querySelector<HTMLElement>('[data-drawer]');
-  const closeBtn = drawer?.querySelector<HTMLButtonElement>('[data-drawer-close]');
-  if (!trigger || !drawer) return;
+function initDrawer(trigger: HTMLButtonElement, drawer: HTMLElement) {
+  const closeBtn = drawer.querySelector<HTMLButtonElement>('[data-drawer-close]');
 
   let lastFocused: HTMLElement | null = null;
 
@@ -17,17 +18,17 @@ function initDrawer() {
 
   function open() {
     lastFocused = document.activeElement as HTMLElement;
-    drawer!.hidden = false;
-    trigger!.setAttribute('aria-expanded', 'true');
+    drawer.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-    const first = drawer!.querySelector<HTMLElement>(focusablesSelector);
+    const first = drawer.querySelector<HTMLElement>(focusablesSelector);
     first?.focus();
     document.addEventListener('keydown', onKeydown);
   }
 
   function close() {
-    drawer!.hidden = true;
-    trigger!.setAttribute('aria-expanded', 'false');
+    drawer.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
     document.removeEventListener('keydown', onKeydown);
     (lastFocused ?? trigger)?.focus();
@@ -39,7 +40,7 @@ function initDrawer() {
       return;
     }
     if (e.key === 'Tab') {
-      const focusables = Array.from(drawer!.querySelectorAll<HTMLElement>(focusablesSelector));
+      const focusables = Array.from(drawer.querySelectorAll<HTMLElement>(focusablesSelector));
       if (focusables.length === 0) return;
       const first = focusables[0];
       const last = focusables[focusables.length - 1];
@@ -63,8 +64,16 @@ function initDrawer() {
   });
 }
 
+function initAllDrawers() {
+  document.querySelectorAll<HTMLButtonElement>('[data-drawer-trigger]').forEach((trigger) => {
+    const targetId = trigger.getAttribute('aria-controls');
+    const drawer = targetId && document.getElementById(targetId);
+    if (drawer) initDrawer(trigger, drawer);
+  });
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initDrawer);
+  document.addEventListener('DOMContentLoaded', initAllDrawers);
 } else {
-  initDrawer();
+  initAllDrawers();
 }
