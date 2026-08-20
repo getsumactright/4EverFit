@@ -140,7 +140,7 @@ const faqItems = [
        the same object landing in the hero. Skippable, reduced-motion
        safe, and never blocks content — the hero is fully in the DOM and
        readable underneath the whole time. -->
-  <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] bg-bg flex items-center justify-center">
+  <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] flex items-center justify-center">
     <video
       id="intro-video"
       class="w-[min(66vw,440px)] aspect-square rounded-[var(--radius-lg)]"
@@ -152,7 +152,7 @@ const faqItems = [
       preload="auto"
       aria-hidden="true"
     ></video>
-    <button type="button" id="intro-skip" aria-label="Skip intro animation" class="absolute bottom-8 right-8 text-[13px] text-cream-muted hover:text-cream transition-colors">
+    <button type="button" id="intro-skip" aria-label="Skip intro animation" class="intro-skip absolute bottom-8 right-8 text-[13px] transition-colors">
       Skip intro
     </button>
   </div>
@@ -163,17 +163,64 @@ const faqItems = [
     <header class="sticky top-0 z-[var(--z-sticky)] bg-bg/90 backdrop-blur-sm border-b border-[color:var(--color-divider)]">
       <div class="flex items-center gap-8 px-[clamp(24px,5vw,72px)] py-4">
         <Logo href="#top" size="40px" />
-        <nav class="ml-auto hidden min-[900px]:flex items-center gap-8">
-          <a href="#pillars" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Pillars</a>
-          <a href="#how" class="text-[14px] text-cream-muted hover:text-cream transition-colors">How it works</a>
-          <a href="#coach" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Coach</a>
-          <a href="#results" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Results</a>
-        </nav>
-        <Button href="#assessment" variant="primary" class="ml-8 min-[900px]:ml-0 !px-5 !py-2.5 !text-[14px]">
-          Take the assessment
-        </Button>
+        <div class="ml-auto flex items-center gap-8">
+          <nav class="hidden min-[900px]:flex items-center gap-8">
+            <a href="#pillars" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Pillars</a>
+            <a href="#how" class="text-[14px] text-cream-muted hover:text-cream transition-colors">How it works</a>
+            <a href="#coach" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Coach</a>
+            <a href="#results" class="text-[14px] text-cream-muted hover:text-cream transition-colors">Results</a>
+          </nav>
+          <button
+            type="button"
+            data-drawer-trigger
+            aria-controls="tablet-drawer"
+            aria-expanded="false"
+            aria-label="Open menu"
+            class="flex min-[900px]:hidden flex-col items-end justify-center gap-[5px] w-11 h-11"
+          >
+            <span class="block w-6 h-[2px] rounded-full bg-cream" aria-hidden="true"></span>
+            <span class="block w-6 h-[2px] rounded-full bg-cream" aria-hidden="true"></span>
+            <span class="block w-4 h-[2px] rounded-full bg-brass" aria-hidden="true"></span>
+          </button>
+          <Button href="#assessment" variant="primary" class="!px-5 !py-2.5 !text-[14px]">
+            Take the assessment
+          </Button>
+        </div>
       </div>
     </header>
+
+    <!-- Tablet-range drawer (640–899px): the full nav in the header above
+         only appears at ≥900px, and the dedicated small-breakpoint mobile
+         tree below is sm:hidden (≥640px), so this range needs its own nav
+         fallback rather than sharing the mobile tree's drawer, whose links
+         target #m-* ids that don't exist in this tree's layout. -->
+    <div
+      id="tablet-drawer"
+      data-drawer
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+      class="fixed inset-0 z-[var(--z-modal)] min-[900px]:hidden bg-bg-raised text-cream flex flex-col p-5"
+    >
+      <div class="flex justify-end">
+        <button type="button" data-drawer-close class="text-[14px] font-medium py-2">Close</button>
+      </div>
+      <nav class="mt-8 flex flex-col">
+        {['Pillars', 'How it works', 'Coach', 'Results'].map((label) => (
+          <a
+            data-drawer-link
+            href={`#${label === 'How it works' ? 'how' : label.toLowerCase()}`}
+            class="border-t border-[color:var(--color-divider)] py-5 text-[28px] font-display font-semibold text-cream"
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+      <Button href="#assessment" data-drawer-link variant="primary" block class="mt-auto !py-4">
+        Take the assessment
+      </Button>
+    </div>
 
     <main id="top">
       <!-- 2. Hero -->
@@ -781,6 +828,12 @@ const faqItems = [
     // itself is real, readable content underneath the whole time, never
     // gated behind the intro.
     const SEEN_KEY = '4everfit-intro-seen';
+    // badge-intro.mp4 is 5.04s long but the badge finishes assembling at
+    // ~3.7s — sampling frame-to-frame difference, motion drops to noise
+    // (delta ~0.5) from 3.8s and the remaining 1.3s is a frozen frame.
+    // Hand off when the animation is actually done rather than when the
+    // file runs out; the 0.6s overlay fade covers the seam.
+    const HANDOFF_AT = 3.8;
     const overlay = document.getElementById('intro-overlay');
     const video = document.getElementById('intro-video') as HTMLVideoElement | null;
     const skipBtn = document.getElementById('intro-skip');
@@ -817,12 +870,23 @@ const faqItems = [
       landHero();
     } else {
       document.body.style.overflow = 'hidden';
-      video.addEventListener('ended', finishIntro);
-      // Fallback in case autoplay is blocked or the video fails to load —
-      // never let the intro trap the page.
-      window.setTimeout(finishIntro, 7000);
-      skipBtn?.addEventListener('click', finishIntro);
-      video.play().catch(finishIntro);
+      let handedOff = false;
+      const handOff = () => {
+        if (handedOff) return;
+        handedOff = true;
+        finishIntro();
+      };
+      video.addEventListener('timeupdate', () => {
+        if (video.currentTime >= HANDOFF_AT) handOff();
+      });
+      // Backstop if timeupdate never reaches the mark (short decode, seek).
+      video.addEventListener('ended', handOff);
+      // Failsafe for a stalled load — autoplay being blocked is caught by
+      // the play() rejection below, so this only covers a hung network.
+      // Never let the intro trap the page.
+      window.setTimeout(handOff, 5000);
+      skipBtn?.addEventListener('click', handOff);
+      video.play().catch(handOff);
     }
   </script>
 
@@ -856,7 +920,17 @@ const faqItems = [
 
   <style is:global>
     #intro-overlay {
+      background: var(--color-intro-ground);
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    /* The cream/ink tokens all resolve dark on this ground since the palette
+       flipped light, so the skip control gets its own pair. */
+    .intro-skip {
+      color: var(--color-intro-ink);
+    }
+    .intro-skip:hover,
+    .intro-skip:focus-visible {
+      color: var(--color-brass-deep-ondark);
     }
     #intro-overlay.intro-done {
       opacity: 0;
@@ -864,7 +938,7 @@ const faqItems = [
     }
     #intro-video {
       object-fit: cover;
-      background: var(--color-bg);
+      background: var(--color-intro-ground);
     }
 
     /* Hero badge starts small/invisible and pops in the instant the intro
