@@ -5,6 +5,7 @@ import Field from '../components/Field.astro';
 import Tag from '../components/Tag.astro';
 import GrayFigure from '../components/GrayFigure.astro';
 import Logo from '../components/Logo.astro';
+const base = import.meta.env.BASE_URL;
 
 const pillars = [
   {
@@ -308,7 +309,7 @@ const faqItems = [
       <section id="how" class="bg-bg-raised border-b border-[color:var(--color-divider)]">
         <div class="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[900px]:grid-cols-1">
           <GrayFigure
-            src="/img/session-coaching.jpg"
+           src={`${base}img/session-coaching.jpg`}
             alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room"
             minHeight="460px"
             class="max-[900px]:min-h-[340px]"
