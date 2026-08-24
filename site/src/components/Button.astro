@@ -9,6 +9,12 @@ interface Props {
   block?: boolean;
   class?: string;
   id?: string;
+  /* Anything else — data-* hooks, aria-*, disabled — is forwarded to the
+     rendered tag. Without this the component silently swallowed every
+     data-* prop at build time, which left the assessment's Back,
+     Start-over and Submit controls and the drawer's close-on-navigate
+     wired to handlers that could never match. */
+  [key: string]: unknown;
 }
 const {
   variant = 'primary',
@@ -17,6 +23,7 @@ const {
   block = false,
   class: className = '',
   id,
+  ...rest
 } = Astro.props;
 
 const base =
@@ -35,7 +42,7 @@ const widthClass = block ? 'w-full' : '';
 const cls = `${base} ${variants[variant]} ${widthClass} ${className}`;
 const Tag = href ? 'a' : 'button';
 ---
-<Tag class={cls} href={href} type={href ? undefined : type} id={id}>
+<Tag class={cls} href={href} type={href ? undefined : type} id={id} {...rest}>
   <slot />
 </Tag>
 

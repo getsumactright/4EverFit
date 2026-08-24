@@ -49,6 +49,7 @@ class AssessmentController {
   errorEl: HTMLElement | null;
   thanksTitleEl: HTMLElement | null;
   submitBtn: HTMLButtonElement | null;
+  advanceTimer: number | null = null;
 
   constructor(root: HTMLElement) {
     this.root = root;
@@ -88,6 +89,10 @@ class AssessmentController {
     this.root.querySelectorAll<HTMLElement>('[data-action="back"]').forEach((btn) => {
       btn.addEventListener('click', () => {
         if (this.state.submitted) return;
+        if (this.advanceTimer !== null) {
+          window.clearTimeout(this.advanceTimer);
+          this.advanceTimer = null;
+        }
         this.state.error = '';
         this.state.step = Math.max(0, Math.min(this.state.step, 4) - 1);
         this.render();
@@ -99,13 +104,28 @@ class AssessmentController {
         const step = Number(input.dataset.step);
         this.state.answers[step] = input.value;
         this.state.error = '';
-        this.state.step = Math.min(step + 1, 4);
-        this.render();
+
+        // Hold briefly before advancing so the selected marker is actually
+        // seen. Selecting and advancing in the same frame reads as "nothing
+        // happened, then the screen moved" — which is how this behaved
+        // before the :checked state existed at all. A second click inside
+        // the window replaces the pending advance rather than queueing one.
+        if (this.advanceTimer !== null) window.clearTimeout(this.advanceTimer);
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.advanceTimer = window.setTimeout(() => {
+          this.advanceTimer = null;
+          this.state.step = Math.min(step + 1, 4);
+          this.render();
+        }, reduced ? 0 : 180);
       });
     });
 
     this.root.querySelectorAll<HTMLElement>('[data-action="start-over"]').forEach((btn) => {
       btn.addEventListener('click', () => {
+        if (this.advanceTimer !== null) {
+          window.clearTimeout(this.advanceTimer);
+          this.advanceTimer = null;
+        }
         this.state = initialState();
         this.render();
         this.focusHeading();
