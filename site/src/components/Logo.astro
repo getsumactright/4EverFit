@@ -22,10 +22,11 @@ const {
 // narrower at the same size), so the wordmark needs to be set larger
 // relative to the badge to keep the lockup balanced.
 const resolvedWordmark = wordmarkSize ?? `calc(${size} * 0.62)`;
+const base = import.meta.env.BASE_URL;
 ---
 <a href={href} class:list={['logo-lockup inline-flex items-center gap-2.5', className]}>
   <img
-    src="/logo/4everfit-badge-v2.png"
+    src={`${base}logo/4everfit-badge-v2.png`}
     alt=""
     aria-hidden="true"
     class="logo-badge"

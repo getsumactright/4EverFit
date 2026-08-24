@@ -5,6 +5,7 @@ import Field from '../components/Field.astro';
 import Tag from '../components/Tag.astro';
 import GrayFigure from '../components/GrayFigure.astro';
 import Logo from '../components/Logo.astro';
+const base = import.meta.env.BASE_URL;
 
 const pillars = [
   {
@@ -150,7 +151,7 @@ const faqItems = [
        is fully in the DOM and readable underneath the whole time. -->
   <div id="intro-overlay" class="fixed inset-0 z-[var(--z-intro)] bg-bg flex items-center justify-center">
     <div id="intro-badge" class="intro-sheen w-[min(62vw,420px)]" aria-hidden="true">
-      <img src="/logo/4everfit-badge-v2.png" alt="" width="1374" height="1145" class="w-full h-auto" />
+      <img src={`${base}logo/4everfit-badge-v2.png`} alt="" width="1374" height="1145" class="w-full h-auto" />
     </div>
     <button type="button" id="intro-skip" aria-label="Skip intro animation" class="intro-skip absolute bottom-8 right-8 text-[13px] transition-colors">
       Skip intro
@@ -250,14 +251,14 @@ const faqItems = [
           <div class="relative flex items-center justify-center py-16 px-[clamp(24px,5vw,72px)] max-[980px]:pt-0" data-reveal data-reveal-delay="1">
             <div class="relative w-full max-w-[420px]">
               <GrayFigure
-                src="/img/hero-training.jpg"
+                src={`${base}img/hero-training.jpg`}
                 alt="Athlete mid-lift during a coached video training session"
                 aspect="3/4"
                 rounded
                 class="shadow-[var(--shadow-lg)]"
               />
               <div data-hero-badge class="hero-badge badge-sheen absolute -bottom-14 -left-14 w-[220px] h-[220px] rounded-full shadow-[var(--shadow-lg)] max-[1180px]:w-[160px] max-[1180px]:h-[160px] max-[1180px]:-bottom-10 max-[1180px]:-left-10">
-                <img src="/logo/4everfit-badge-v2.png" alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="220" height="220" />
+                <img src={`${base}logo/4everfit-badge-v2.png`} alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="220" height="220" />
               </div>
             </div>
           </div>
@@ -307,7 +308,7 @@ const faqItems = [
       <section id="how" class="bg-bg-raised border-b border-[color:var(--color-line)]">
         <div class="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[900px]:grid-cols-1">
           <GrayFigure
-            src="/img/session-coaching.jpg"
+           src={`${base}img/session-coaching.jpg`}
             alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room"
             minHeight="460px"
             class="max-[900px]:min-h-[340px]"
@@ -430,7 +431,7 @@ const faqItems = [
       <section id="coach" class="border-b border-[color:var(--color-line)]">
         <div class="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[900px]:grid-cols-1">
           <GrayFigure
-            src="/img/coach-portrait.jpg"
+            src={`${base}img/coach-portrait.jpg`}
             alt="Portrait of the coach in a dim private training studio"
             minHeight="520px"
           />
@@ -583,12 +584,12 @@ const faqItems = [
           </div>
           <div class="relative">
             <GrayFigure
-              src="/img/hero-training.jpg"
+              src={`${base}img/hero-training.jpg`}
               alt="Athlete mid-lift during a coached video training session"
               minHeight="360px"
             />
             <div data-hero-badge class="hero-badge badge-sheen absolute -bottom-9 left-4 w-[130px] h-[130px] rounded-full shadow-[var(--shadow-lg)]">
-              <img src="/logo/4everfit-badge-v2.png" alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="130" height="130" />
+              <img src={`${base}logo/4everfit-badge-v2.png`} alt="4Ever Fit Lifestyle badge" class="w-full h-full object-contain rounded-full" width="130" height="130" />
             </div>
           </div>
         </section>
@@ -632,7 +633,7 @@ const faqItems = [
 
         <!-- 6. How a session runs -->
         <section class="bg-bg-raised border-b border-[color:var(--color-line)]">
-          <GrayFigure src="/img/session-coaching.jpg" alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room" minHeight="280px" />
+          <GrayFigure src={`${base}img/session-coaching.jpg`} alt="Coach on a live one-on-one video training session, laptop screen lit warm in a dim room" minHeight="280px" />
           <div class="px-5 py-8">
             <h2 class="text-[28px] leading-[1.08]">45 minutes. Camera on. Nothing to figure out.</h2>
             <div class="mt-6">
@@ -724,7 +725,7 @@ const faqItems = [
 
         <!-- 8. Coach -->
         <section id="m-coach" class="border-b border-[color:var(--color-line)]">
-          <GrayFigure src="/img/coach-portrait.jpg" alt="Portrait of the coach in a dim private training studio" minHeight="360px" />
+          <GrayFigure src={`${base}img/coach-portrait.jpg`} alt="Portrait of the coach in a dim private training studio" minHeight="360px" />
           <div class="px-5 py-8">
             <h2 class="text-[28px] leading-[1.08]">One coach. Your whole file.</h2>
             <p class="mt-3 text-[15px] leading-[26px] text-muted">
@@ -966,8 +967,8 @@ const faqItems = [
         transparent 58%
       );
       background-size: 300% 100%;
-      -webkit-mask-image: url("/logo/4everfit-badge-v2.png");
-              mask-image: url("/logo/4everfit-badge-v2.png");
+      -webkit-mask-image: url("/4EverFit/logo/4everfit-badge-v2.png");
+              mask-image: url("/4EverFit/logo/4everfit-badge-v2.png");
       -webkit-mask-size: contain;
               mask-size: contain;
       -webkit-mask-repeat: no-repeat;
