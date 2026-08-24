@@ -2,66 +2,122 @@
 
 ## Name
 
-Cast Bronze
+Graphite
 
 ## Summary
 
-A boutique training studio at dusk, not a SaaS dashboard: warm dark ground, one cast-bronze accent lifted
-straight from the client's badge logo, and a light "paper" surface used only where something needs to read
-as a tactile, framed object (the assessment card, the credential grid, result cards) — everywhere else stays
-dark so the badge and the paper cards are the things that visually lift off the page, not everything at once.
+Near-zero-chroma light paper with a deep graphite accent, and the cast-bronze badge left as the only
+colour on the page. That is PRODUCT.md principle 1 ("the badge earns its keep once, not everywhere")
+taken literally: with no accent hue competing, the mark is the single warm object in the frame.
 
-Supersedes the site's original "Counted Weight" system (flat, zero-radius, red accent, no shadows), which
-was built around a different, abandoned logo direction. See `PRODUCT.md` → Anti-references.
+Chosen 2026-08-23. Supersedes v2 "Cast Bronze" (warm cream ground + brass accent), which itself
+superseded the original "Counted Weight" system. Two things forced the change: the brass accent measured
+**3.26:1** on its ground and failed AA for the small numerals and accordion glyphs it was carrying, and
+the cream ground sat at the centre of the warm-neutral band that now reads as generic across the
+category.
 
 ## Color
 
-Strategy: **Committed** — one saturated brand color (bronze) carries real surface weight via buttons, marks,
-and the badge itself; the dark ground is a true near-black warm neutral, not a tinted-cream default.
+Strategy: **Restrained**, deliberately — the accent is near-neutral and the page carries almost no
+chroma. This is a departure from v2's Committed strategy and it is a real bet: with no colour doing the
+work, the photography, the spacing and the type carry the page. It is the option with the least to hide
+behind.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--color-bg` | `#17130f` | Page ground (default surface) |
-| `--color-bg-raised` | `#221b14` | Cards/panels sitting on the dark ground (dark band, coach section) |
-| `--color-paper` | `#efe6d8` | Deliberate light surface — assessment card, credential grid, result/testimonial cards only |
-| `--color-paper-muted` | `#e2d5bf` | Hover/pressed fill on paper |
-| `--color-ink` | `#1c150e` | Text on paper |
-| `--color-cream` | `#efe6d8` | Text on dark ground |
-| `--color-cream-muted` | `#b8a98e` | Secondary text on dark ground |
-| `--color-muted` | `#6b5c46` | Secondary text on paper |
-| `--color-brass` | `#b6893f` | Icons, dividers, large numerals (≥28px), button fills — not body text on paper |
-| `--color-brass-bright` | `#d9ac66` | Hover/focus state |
-| `--color-brass-deep` | `#7c5a24` | Accent-colored body text **on paper** (5.1:1) |
-| `--color-brass-deep-ondark` | `#e7c483` | Accent-colored body text **on dark ground** (11.1:1) |
+| `--color-bg` | `#F4F4F3` | Page ground |
+| `--color-bg-raised` | `#E6E7E6` | Banded sections — stat row, drawers |
+| `--color-surface` | `#FFFFFF` | Cards — assessment, pillars, results |
+| `--color-surface-muted` | `#F0F1F1` | Hover/pressed fill on a card |
+| `--color-ink` | `#16181A` | Primary text, every surface |
+| `--color-muted` | `#5E6265` | Secondary text, every surface |
+| `--color-accent` | `#2A2E31` | Fills, emphasis text, numerals, icons |
+| `--color-accent-hover` | `#15181A` | Hover / pressed / focus fill |
+| `--color-accent-soft` | `#E7E8E8` | Chips, selected-option fill |
+| `--color-on-accent` | `#FFFFFF` | Text and icons **on** an accent fill |
+| `--color-line` | `#B9BCBB` | Card and section hairlines |
+| `--color-badge-sheen` | `#E7C483` | The badge's own sheen sweep only — never as an accent |
 
-Contrast verified: cream/bg 14.9:1 · ink/paper 14.6:1 · brass-deep/paper 5.1:1 · brass-deep-ondark/bg 11.1:1 ·
-ink/brass (button label) 5.7:1. Plain `--color-brass` fails body-text contrast on paper (2.6:1) — reserved
-for large/graphical use.
+Measured, not estimated: ink/bg 16.17 &middot; ink/raised 14.36 &middot; ink/surface 17.80 &middot;
+muted/bg 5.59 &middot; muted/raised 4.97 &middot; muted/surface 6.16 &middot; accent/bg 12.44 &middot;
+accent/raised 11.04 &middot; accent/surface 13.69 &middot; accent/soft 11.15 &middot;
+on-accent/accent 13.69. A full rendered audit of the live page across 117 text elements returns
+**zero AA failures**.
+
+**The accent is now cleared for text at any size.** Under v2 the brass could not carry body-sized or
+small text, which spawned the `-deep` / `-bright` / `-deep-ondark` variants. Those are all gone; there is
+one accent and one hover value.
+
+### Two rules that are easy to get wrong
+
+1. **`--color-on-accent` is mandatory on any accent fill.** The accent is near-black, so `text-ink` on an
+   accent background is invisible. This bit the primary button and both closing banners during the v3
+   migration.
+2. **The card edge is carried by `--color-line`, not by value.** `--color-surface` against `--color-bg`
+   is only 1.10:1 — on a near-white ground a white card cannot separate by fill. The hairline measures
+   1.74:1 on the ground and 1.91:1 on a card. Do not remove card borders and expect shadow to hold the
+   shape; that was the v2 failure, where containers sat at 1.21:1 and read as one flat field.
+
+### The badge stays bronze
+
+The badge PNG is cast bronze/gunmetal and is not changing. `--color-badge-sheen` exists solely for its
+sheen sweep and is the one warm value left in the system. Never reuse it as an accent — doing so
+reintroduces exactly the second metallic texture that principle 1 rules out.
 
 ## Typography
 
-Contrast-axis pairing (serif display + humanist sans body — deliberately not two geometric sans):
+Display/body split with a hard contrast in width and voice — a condensed all-caps display face against
+a geometric sans body.
 
-- **Display / headings:** Fraunces, weight 600, `letter-spacing: -0.01em`, sentence case (not forced
-  uppercase — the previous system's all-caps-everywhere reads as shouting; this brand is "confident and
-  calm," per PRODUCT.md).
-- **Body:** Inter, weight 400/500.
-- **Eyebrows/labels only** (used on a handful of sections, never every section): 12px Inter, uppercase,
+- **Display / headings / wordmark:** Bebas Neue, weight 400. **Capitals only — the face has no
+  lowercase**, so every heading and the "4Ever Fit" wordmark render as caps regardless of the casing in
+  the markup. `letter-spacing: 0.012em` (positive, unlike the serif it replaced), `line-height: 1.02`.
+  Wordmark uses `0.045em` tracking and sits at 0.62x the badge diameter — Bebas is ~27% narrower than
+  the old serif at the same size, so it needs to be set larger to balance the lockup.
+- **Body:** Poppins, weights 400/500/600, plus a true 400 italic.
+- **Eyebrows/labels only** (used on a handful of sections, never every section): 12px Poppins, uppercase,
   `0.1em` tracking.
+- **Buttons stay on Poppins 600**, not the display face — the one conversion path is set in the body
+  voice deliberately.
 
-Hero H1 ceiling: `clamp(2.5rem, 5vw, 4.5rem)` — stays under the 6rem/-0.04em bans.
+Hero H1 ceiling: `clamp(2.5rem, 5vw, 4.5rem)`.
+
+### Constraints this face imposes
+
+Bebas Neue ships **one weight and no italic**. Never apply `font-semibold`/`font-bold` or `italic` to an
+element using `--font-display` — the browser synthesises both and it looks broken. The 24 `font-semibold`
+utilities that used to sit alongside `font-display` were removed for this reason, and the testimonial
+blockquote was moved from the display face to **Poppins Italic**, which is a real italic rather than a
+sheared upright.
+
+Poppins is geometric and sets roughly 3–5% wider than the Inter it replaced. Line lengths grew slightly;
+`max-w-[Nch]` constraints were checked and none overflow, but they're worth re-checking if body copy changes.
+
+### Decision on record: all caps
+
+`PRODUCT.md` lists "aggressive all-caps shouting" under Big-box gym anti-references, and the previous
+system called for sentence case on exactly that basis. **Bebas Neue makes caps unavoidable** — it has no
+lowercase to fall back to.
+
+This was chosen by the client on 2026-08-23 with the tradeoff stated: Anton was offered as the
+alternative that *does* have lowercase and would have preserved sentence case, and Poppins-for-everything
+was offered as the option that avoided caps entirely. Bebas was picked over both. Treat the anti-reference
+in `PRODUCT.md` as superseded for headings specifically — not as an oversight to "fix" in a later pass.
 
 ## Layout & Components
 
 - Radius: `--radius-sm 8px / --radius-md 14px / --radius-lg 24px / --radius-full 999px` — the badge is
   dimensional, the interface around it is allowed to be too (in contrast to the old zero-radius rule).
-- Shadow: warm-tinted (`color-mix` off near-black, not pure black), `--shadow-sm/md/lg` plus `--shadow-brass`
-  for the primary CTA's focused/hover state — a small nod to the badge's metal glint, used only on the one
-  button that matters most.
-- Dividers are 1px (down from the old system's structural 2px rules) and low-opacity — texture, not armor.
-- `.mark` is a small filled brass dot (was a hard-edged square); `.mark-hollow` a ringed circle that fills
-  brass when a step/pillar is complete — softer geometry to match the badge's circular form instead of the
-  old system's squares.
+- Shadow: neutral (`color-mix` off `#0B0C0D`, not the old warm near-black), `--shadow-sm/md/lg` plus
+  `--shadow-accent` for the primary CTA's focused/hover state, used only on the one button that matters
+  most.
+- Hairlines are 1px and solid `--color-line` — under v3 they are structural, not decorative, because they
+  are what separates a white card from a near-white ground. See Color → "Two rules that are easy to get
+  wrong."
+- `.mark` is a small filled accent dot; `.mark-hollow` a ringed circle that fills with the accent when a
+  step/pillar is complete — circular geometry to echo the badge.
+- **`.on-surface`** (renamed from `.on-paper` in v3) marks a subtree sitting on `--color-surface` rather
+  than the page ground; the logo lockup and the secondary button key off it.
 
 ## Motion
 
@@ -72,6 +128,8 @@ Section reveals are staggered per-item, not a uniform fade applied everywhere. A
 
 ## Imagery
 
-Grayscale photography treatment is replaced with a lighter desaturation (`saturate(0.82) contrast(1.05)`) —
-full grayscale belonged to the old flat system; a boutique-warm brand keeps a little color in its
-photography. Coach/session photography should read as candid and current, not stock-gym-poster.
+Photography carries a light desaturation (`saturate(0.82) contrast(1.05)`). Under v3 this matters more
+than it did before: with a near-neutral palette the photographs are the main source of colour and warmth
+on the page, so they are load-bearing rather than decorative. Coach/session photography should read as
+candid and current, not stock-gym-poster. Weak photography will show more here than it would have under
+the cream-and-brass system.

@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# impeccable design-hook session cache (critique reports ARE tracked)
+.impeccable/hook.cache.json

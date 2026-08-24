@@ -1,58 +1,67 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   4EverFit Lifestyle — visual system v2, "Cast Bronze"
+   4EverFit Lifestyle — visual system v3, "Graphite"
    ─────────────────────────────────────────────────────────────────────────
-   Replaces the site's original flat "Counted Weight" system (zero radius,
-   red accent, no shadows) — that system was designed around an earlier,
-   abandoned logo concept and visually fights the client's actual mark: a
-   dimensional bronze/gunmetal cast badge. See PRODUCT.md for the full
-   rationale and anti-references.
+   Supersedes v2 "Cast Bronze" (warm cream ground + brass accent), which
+   itself replaced the original flat "Counted Weight" system. The brass
+   accent measured 3.26:1 on its ground and failed AA for the small numerals
+   and accordion glyphs it carried; the cream ground sat at the centre of the
+   warm-neutral band that reads as generic. Both are gone.
 
-   Direction: a boutique training studio at dusk, not a SaaS dashboard —
-   warm dark ground (the room), one cast-bronze accent (the badge on the
-   wall), a light "paper" surface used deliberately for the handful of
-   places that need to read as a framed, tactile object (the assessment
-   card, credential grid, result cards) rather than the badge doing all the
-   dimensional work alone.
-
-   Contrast verified (WCAG AA): cream/bg 14.9:1, ink/paper 14.6:1,
-   brass-deep/paper 5.1:1, brass-deep-on-dark/bg 11.1:1, ink/brass button
-   5.7:1. Plain --color-brass is for icons, large display numerals (≥28px)
-   and non-text fills only — it does not clear body-text contrast on paper
-   (2.6:1); body-sized accent text always steps to a -deep token.
+   Direction: near-zero-chroma light paper, deep graphite accent, and the
+   cast-bronze badge left as the only colour on the page — PRODUCT.md
+   principle 1 ("the badge earns its keep once") taken literally.
    ───────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Ground — flipped light for a softer, easier-on-the-eyes read. Paper
-     stays the brightest surface (white) so it still visibly lifts off the
-     slightly deeper warm-cream bg, same "framed object" hierarchy as the
-     old dark version just at the light end of the scale. */
-  --color-bg: #efe9dd;         /* primary page ground — soft warm cream */
-  --color-bg-raised: #f8f4ec;  /* cards/panels sitting directly on --color-bg */
-  --color-paper: #ffffff;      /* brightest "framed object" surface — used deliberately, not as page default */
-  --color-paper-muted: #f1ebdd;/* hover/pressed fill on paper */
+  /* ── Graphite ────────────────────────────────────────────────────────────
+     Near-zero-chroma light ground with a deep graphite accent. Chosen
+     2026-08-23, replacing the warm-ink + accent system.
+
+     The point of the near-zero chroma: the cast-bronze badge becomes the
+     only colour on the page, which is PRODUCT.md principle 1 taken
+     literally. Nothing else competes with the mark.
+
+     Every ratio below is measured, not estimated:
+       ink/bg 16.17  ink/raised 14.36  ink/surface 17.80
+       muted/bg 5.59  muted/raised 4.97  muted/surface 6.16
+       accent/bg 12.44  accent/raised 11.04  accent/surface 13.69
+       accent/soft 11.15  white-on-accent 13.69  white-on-accent-hover 17.84
+     The previous accent accent measured 3.26:1 on the ground and failed AA
+     for the small numerals and accordion glyphs it was carrying. This one
+     clears AA everywhere, so the accent may be used at any text size.
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Ground */
+  --color-bg: #F4F4F3;            /* page ground */
+  --color-bg-raised: #E6E7E6;     /* banded sections — stat row, drawers */
+  --color-surface: #FFFFFF;       /* cards: assessment, pillars, results */
+  --color-surface-muted: #F0F1F1; /* hover/pressed fill on a card */
 
   /* Ink */
-  --color-ink: #1c150e;        /* dark text — used on paper surfaces */
-  --color-cream: var(--color-ink);    /* primary text on --color-bg — now light ground, so this is dark ink too */
-  --color-cream-muted: #6b5c46;/* secondary text on --color-bg — matches --color-muted now both surfaces are light */
-  --color-muted: #6b5c46;      /* secondary text on paper */
+  --color-ink: #16181A;           /* primary text, every surface */
+  --color-muted: #5E6265;         /* secondary text, every surface */
 
-  /* Accent — cast bronze, off the badge. Deepened from the dark-theme
-     values (which read as light gold on near-black) so the same accent
-     still clears AA contrast against the new light ground; verified
-     against #efe9dd/#ffffff: brass 3.9:1 (large text/icons/fills only),
-     brass-bright 6.1:1, brass-deep unchanged at 5.1:1. */
-  --color-brass: #a3792e;          /* icons, dividers, large numerals, button fills */
-  --color-brass-bright: #7f5c1e;   /* emphasis text, hover state */
-  --color-brass-deep: #7c5a24;     /* accent-colored body text on paper (5.1:1) */
-  --color-brass-deep-ondark: #e7c483; /* unused currently — kept for a future dark-surface accent need */
+  /* Accent — deep graphite. Cleared for text at any size. */
+  --color-accent: #2A2E31;        /* fills, emphasis text, numerals, icons */
+  --color-accent-hover: #15181A;  /* hover / pressed / focus fill */
+  --color-accent-soft: #E7E8E8;   /* chips, selected-option fill */
+  --color-on-accent: #FFFFFF;     /* text/icons ON an accent fill (13.69:1) */
 
-  --color-divider: color-mix(in srgb, var(--color-cream) 14%, transparent);
-  --color-divider-onlight: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  /* Structure. On a near-white ground a white card cannot separate by value
+     (surface/bg is only 1.10:1), so the card edge is carried by this
+     hairline instead: 1.74:1 on the ground, 1.91:1 on a card. */
+  --color-line: #B9BCBB;
 
-  --font-display: "Fraunces Variable", "Iowan Old Style", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  /* The badge PNG is cast bronze and is not changing, so its sheen sweep
+     stays warm. This is the one warm value left in the system and it exists
+     only for the badge — never reuse it as an accent. */
+  --color-badge-sheen: #E7C483;
+
+  /* Display is Bebas Neue: capitals only, single weight, no italic. Anything
+     using it must stay at font-weight 400 and font-style normal. */
+  --font-display: "Bebas Neue", "Oswald", Impact, sans-serif;
+  --font-body: "Poppins", system-ui, -apple-system, sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -66,11 +75,11 @@
   --radius-lg: 24px;
   --radius-full: 999px;
 
-  --shadow-sm: 0 1px 3px color-mix(in srgb, #0a0704 30%, transparent);
-  --shadow-md: 0 8px 24px color-mix(in srgb, #0a0704 34%, transparent);
-  --shadow-lg: 0 24px 56px color-mix(in srgb, #0a0704 42%, transparent);
-  --shadow-brass: 0 0 0 1px color-mix(in srgb, var(--color-brass) 55%, transparent),
-    0 10px 30px color-mix(in srgb, var(--color-brass) 22%, transparent);
+  --shadow-sm: 0 1px 3px color-mix(in srgb, #0B0C0D 22%, transparent);
+  --shadow-md: 0 8px 24px color-mix(in srgb, #0B0C0D 20%, transparent);
+  --shadow-lg: 0 24px 56px color-mix(in srgb, #0B0C0D 24%, transparent);
+  --shadow-accent: 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent),
+    0 10px 30px color-mix(in srgb, var(--color-accent) 20%, transparent);
 
   /* Semantic z-index scale — never arbitrary values elsewhere */
   --z-sticky: 20;
@@ -83,21 +92,17 @@
 @theme inline {
   --color-bg: var(--color-bg);
   --color-bg-raised: var(--color-bg-raised);
-  --color-paper: var(--color-paper);
-  --color-paper-muted: var(--color-paper-muted);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
   --color-ink: var(--color-ink);
-  --color-cream: var(--color-cream);
-  --color-cream-muted: var(--color-cream-muted);
   --color-muted: var(--color-muted);
 
-  --color-brass: var(--color-brass);
-  --color-brass-bright: var(--color-brass-bright);
-  --color-brass-deep: var(--color-brass-deep);
-  --color-brass-deep-ondark: var(--color-brass-deep-ondark);
-  --color-accent: var(--color-brass);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-on-accent: var(--color-on-accent);
 
-  --color-divider: var(--color-divider);
-  --color-divider-onlight: var(--color-divider-onlight);
+  --color-line: var(--color-line);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -123,7 +128,7 @@
   body {
     margin: 0;
     background: var(--color-bg);
-    color: var(--color-cream);
+    color: var(--color-ink);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
@@ -131,9 +136,12 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 600;
-    line-height: 1.08;
-    letter-spacing: -0.01em;
+    /* Bebas ships one weight — asking for 600 here would synthesise a fake bold. */
+    font-weight: 400;
+    /* Caps-only with a tall cap-height, so it sets tighter than the old serif
+       and wants positive tracking rather than the serif's negative. */
+    line-height: 1.02;
+    letter-spacing: 0.012em;
     margin: 0;
   }
   h1, h2 { text-wrap: balance; }
@@ -141,8 +149,8 @@
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
   :focus { outline: none; }
-  :focus-visible { outline: 2px solid var(--color-brass-bright); outline-offset: 3px; border-radius: 2px; }
-  ::selection { background: color-mix(in srgb, var(--color-brass) 35%, transparent); }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 35%, transparent); }
 
   /* Eyebrow — used deliberately on a handful of sections, not every one */
   .eyebrow {
@@ -154,20 +162,20 @@
     text-transform: uppercase;
     font-weight: 600;
   }
-  .mark { display: block; width: 7px; height: 7px; border-radius: 999px; background: var(--color-brass); flex: none; }
-  .mark-hollow { display: block; width: 16px; height: 16px; border-radius: 999px; border: 2px solid color-mix(in srgb, var(--color-cream) 30%, transparent); flex: none; }
-  .on-paper .mark-hollow { border-color: color-mix(in srgb, var(--color-ink) 30%, transparent); }
+  .mark { display: block; width: 7px; height: 7px; border-radius: 999px; background: var(--color-accent); flex: none; }
+  .mark-hollow { display: block; width: 16px; height: 16px; border-radius: 999px; border: 2px solid color-mix(in srgb, var(--color-ink) 30%, transparent); flex: none; }
+  .on-surface .mark-hollow { border-color: color-mix(in srgb, var(--color-ink) 30%, transparent); }
   /* Progress state lives on the ancestor [data-progress-item], not the
      marker itself — descendant selectors so it applies regardless of
      nesting (desktop: circle marker; mobile: bar marker). */
   [data-done="true"] .mark-hollow,
   [data-done="true"] [data-progress-marker] {
-    background: var(--color-brass);
-    border-color: var(--color-brass);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   .grayscale { filter: saturate(0.82) contrast(1.05); }
-  .rule { border: 0; border-top: 1px solid var(--color-divider); }
+  .rule { border: 0; border-top: 1px solid var(--color-line); }
 
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -195,7 +203,7 @@
     background: linear-gradient(
       100deg,
       transparent 40%,
-      color-mix(in srgb, var(--color-brass-bright) 35%, transparent) 50%,
+      color-mix(in srgb, var(--color-badge-sheen) 55%, transparent) 50%,
       transparent 60%
     );
     background-size: 300% 100%;

@@ -24,11 +24,11 @@ const base =
 
 const variants: Record<string, string> = {
   primary:
-    'btn-primary bg-brass text-ink hover:bg-brass-bright focus-visible:bg-brass-bright shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-brass)] active:scale-[0.98]',
+    'btn-primary bg-accent text-on-accent hover:bg-accent-hover focus-visible:bg-accent-hover shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-accent)] active:scale-[0.98]',
   secondary:
-    'btn-secondary bg-transparent text-cream border border-[color-mix(in_srgb,var(--color-cream)_35%,transparent)] hover:border-brass hover:text-brass-bright active:scale-[0.98]',
+    'btn-secondary bg-transparent text-ink border border-[color-mix(in_srgb,var(--color-ink)_35%,transparent)] hover:border-accent hover:text-accent-hover active:scale-[0.98]',
   inverted:
-    'btn-inverted bg-paper text-ink hover:bg-[color:var(--color-paper-muted)] shadow-[var(--shadow-sm)] active:scale-[0.98]',
+    'btn-inverted bg-surface text-ink hover:bg-[color:var(--color-surface-muted)] shadow-[var(--shadow-sm)] active:scale-[0.98]',
 };
 
 const widthClass = block ? 'w-full' : '';
@@ -40,15 +40,15 @@ const Tag = href ? 'a' : 'button';
 </Tag>
 
 <style>
-  /* Secondary is styled for the dark ground by default; inside a paper
-     surface (the assessment card) it needs ink-colored text/border instead
-     of cream. */
-  :global(.on-paper) .btn-secondary {
+  /* Secondary sits on the page ground by default. Inside a white card
+     (the assessment) it needs a slightly stronger border so the outline
+     still reads against white rather than against the ground. */
+  :global(.on-surface) .btn-secondary {
     color: var(--color-ink);
     border-color: color-mix(in srgb, var(--color-ink) 30%, transparent);
   }
-  :global(.on-paper) .btn-secondary:hover {
-    color: var(--color-brass-deep);
-    border-color: var(--color-brass);
+  :global(.on-surface) .btn-secondary:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
   }
 </style>

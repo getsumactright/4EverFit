@@ -18,7 +18,10 @@ const {
   showTag = true,
   wordmarkSize,
 } = Astro.props;
-const resolvedWordmark = wordmarkSize ?? `calc(${size} * 0.5)`;
+// Bebas is markedly more condensed than the serif it replaces (about 27%
+// narrower at the same size), so the wordmark needs to be set larger
+// relative to the badge to keep the lockup balanced.
+const resolvedWordmark = wordmarkSize ?? `calc(${size} * 0.62)`;
 ---
 <a href={href} class:list={['logo-lockup inline-flex items-center gap-2.5', className]}>
   <img
@@ -54,9 +57,11 @@ const resolvedWordmark = wordmarkSize ?? `calc(${size} * 0.5)`;
   }
   .logo-word {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--color-cream);
+    /* Bebas Neue: single weight, capitals only. The wordmark reads as
+       4EVER FIT regardless of the casing in the markup. */
+    font-weight: 400;
+    letter-spacing: 0.045em;
+    color: var(--color-ink);
     white-space: nowrap;
   }
   .logo-tag {
@@ -64,11 +69,11 @@ const resolvedWordmark = wordmarkSize ?? `calc(${size} * 0.5)`;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: var(--color-brass-bright);
+    color: var(--color-accent);
     white-space: nowrap;
   }
-  /* On paper (light) sections the lockup needs dark ink instead of cream —
-     opt in with .on-paper where the logo sits on --color-paper. */
-  :global(.on-paper) .logo-word { color: var(--color-ink); }
-  :global(.on-paper) .logo-tag { color: var(--color-brass-deep); }
+  /* Inside a white card the tagline needs the accent rather than the
+     ground treatment - opt in with .on-surface. */
+  :global(.on-surface) .logo-word { color: var(--color-ink); }
+  :global(.on-surface) .logo-tag { color: var(--color-accent); }
 </style>

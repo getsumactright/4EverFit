@@ -18,9 +18,16 @@ different, since-abandoned logo direction and no longer applies.
 
 ## What's implemented
 
-- **Cast Bronze design system** in `src/styles/global.css` — dark warm ground (`--color-bg`), a light
-  "paper" surface used only for the assessment card / result cards / credential chips, and one bronze
-  accent lifted from the badge logo. Mapped into Tailwind via `@theme inline`. See `../DESIGN.md`.
+- **Graphite design system** (v3, 2026-08-23) in `src/styles/global.css` — near-zero-chroma light ground
+  (`--color-bg: #F4F4F3`), white cards separated by a structural `--color-line` hairline rather than by
+  value, and a deep graphite accent (`#2A2E31`) cleared for text at any size. Mapped into Tailwind via
+  `@theme inline`. Replaces v2 "Cast Bronze" (warm cream + brass), whose accent measured 3.26:1 and failed
+  AA for the small numerals it carried. A rendered audit of the live page across 117 text elements returns
+  zero AA failures. The cast-bronze badge is now the only colour on the page. See `../DESIGN.md`.
+  Token names were rewritten in the same pass — `brass*`/`cream*`/`paper*`/`divider*` are gone, replaced by
+  `accent`/`accent-hover`/`accent-soft`/`on-accent`/`ink`/`muted`/`surface`/`surface-muted`/`line`. The old
+  names actively misled: `--color-cream` was aliased to ink and `--color-brass-bright` was *darker* than
+  `--color-brass`.
 - The client's actual badge logo (`public/logo/4everfit-badge.png`) via `src/components/Logo.astro` — a
   small icon next to a Fraunces wordmark at nav/footer sizes, full-size with a one-time bronze sheen sweep
   in the hero.
@@ -50,18 +57,20 @@ different, since-abandoned logo direction and no longer applies.
   CRM/ESP) before launch.
 - **App Store / Google Play links are `href="#"` placeholders** in the assessment's confirmation state —
   point them at the real app listings once published.
-- **`DESIGN.md`'s dark-ground "Cast Bronze" palette values are stale** — the implemented palette in
-  `src/styles/global.css` was later revised to an all-light warm-cream ground (`--color-bg: #efe9dd`, no
-  near-black surface anywhere), but `DESIGN.md` still documents the original dark-ground tokens
-  (`--color-bg: #17130f`, etc). Reconcile the doc with the shipped palette, or decide which one is correct
-  and bring the other in line, before treating `DESIGN.md` as a source of truth.
+- ~~`DESIGN.md`'s palette values are stale~~ — **resolved 2026-08-23.** The whole system was replaced
+  with v3 "Graphite" and `DESIGN.md` now documents what actually ships.
 
 ## Fixed since the last handoff
 
-- **Fonts are now self-hosted** — Fraunces (variable) + Inter, latin/latin-ext subsets, in
-  `src/styles/fonts.css` and `public/fonts/`, sourced from `@fontsource-variable/fraunces` and
-  `@fontsource/inter` (kept as devDependencies for re-export if more weights/subsets are needed later). No
-  more Google Fonts CDN request.
+- **Typeface change, 2026-08-23: Bebas Neue + Poppins**, replacing Fraunces + Inter. Self-hosted the
+  same way — latin/latin-ext subsets in `src/styles/fonts.css` and `public/fonts/`, from
+  `@fontsource/bebas-neue` and `@fontsource/poppins`, no Google Fonts CDN request. Ten woff2 files, 96KB
+  total (down from the variable Fraunces). Bebas is **caps-only, one weight, no italic** — see
+  `../DESIGN.md` → Typography for the constraints that imposes and the record of why caps was chosen
+  despite `PRODUCT.md`'s anti-reference. Fixed along the way: `Layout.astro` was preloading two font
+  files that no longer exist, and the desktop hero H1 had no space between "camera." and "No guesswork."
+  because the text and its `<em>` sat on separate source lines and Astro collapsed the newline to nothing
+  (the mobile tree already had them on one line and was fine).
 - **Fixed a real navigation dead zone**: the header's full nav links only appear at `min-[900px]`, and the
   dedicated mobile tree (with its own drawer) is `sm:hidden` (i.e. gone at ≥640px) — so any viewport from
   640–899px (common tablet/small-laptop widths) had no way to reach Pillars/How it works/Coach/Results: no
