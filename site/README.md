@@ -16,6 +16,26 @@ different, since-abandoned logo direction and no longer applies.
 | `npm run build` | Production build to `./dist/` |
 | `npm run preview` | Preview the production build locally |
 
+## Deployment
+
+Hosted on **Netlify**, built from `main` on every push. Config is in
+`../netlify.toml` — base `site`, command `npm run build`, publish `dist`, Node 22.
+Connecting the repo in the Netlify UI needs no further setup; branch pushes and
+pull requests get their own deploy previews automatically.
+
+**The site deploys at the root of its domain, so there is no `base` path.** This
+replaced a GitHub Pages setup (`base: '/4EverFit/'`, deployed by
+`.github/workflows/deploy.yml`, both now removed). That base had to be hardcoded
+into `src/styles/fonts.css` and the sheen `mask-image`, because plain CSS cannot
+read `import.meta.env.BASE_URL` — so the CSS and the config could drift apart and
+silently 404 every font, which is exactly what happened once. Root-relative paths
+remove that whole class of bug, and `npm run dev` now serves at `localhost:4321`
+rather than `localhost:4321/4EverFit/`.
+
+`${base}` interpolation is still used in the markup (`Layout.astro`, `Logo.astro`,
+`index.astro`). It resolves to `/` now and costs nothing, so it stays — if the site
+ever moves back under a sub-path, only `astro.config.mjs` needs to change.
+
 ## What's implemented
 
 - **Graphite design system** (v3, 2026-08-23) in `src/styles/global.css` — near-zero-chroma light ground
