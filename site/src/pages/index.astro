@@ -109,6 +109,8 @@ const testimonials = [
   { quote: 'Coming back from an injury, the form coaching alone was worth it.', name: 'Dev R.', role: 'Masters sprinter' },
 ];
 
+const year = new Date().getFullYear();
+
 const faqItems = [
   {
     q: 'Do I need a gym?',
@@ -450,7 +452,9 @@ const faqItems = [
                 <span class="text-[13px] font-medium px-3.5 py-2 rounded-full bg-bg-raised border border-[color:var(--color-line)]">{c}</span>
               ))}
             </div>
-            <p class="mt-4 text-[12px] text-[color:var(--color-muted)]">Placeholder credentials — confirm with client before launch.</p>
+            {import.meta.env.DEV && (
+              <p class="mt-4 text-[12px] text-[color:var(--color-muted)]">Placeholder credentials — confirm with client before launch.</p>
+            )}
           </div>
         </div>
       </section>
@@ -472,7 +476,9 @@ const faqItems = [
             </div>
           ))}
         </div>
-        <p class="mt-5 text-[12px] text-[color:var(--color-muted)]">Placeholder photography and results — replace before launch.</p>
+        {import.meta.env.DEV && (
+          <p class="mt-5 text-[12px] text-[color:var(--color-muted)]">Placeholder photography and results — replace before launch.</p>
+        )}
       </section>
 
       <!-- 9. Testimonials -->
@@ -519,9 +525,10 @@ const faqItems = [
       </section>
 
       <!-- 12. Footer -->
-      <footer class="py-10 px-[clamp(24px,5vw,72px)] flex items-center justify-between flex-wrap gap-4">
+      <footer class="py-10 px-[clamp(24px,5vw,72px)] flex items-center justify-between flex-wrap gap-4 border-t border-[color:var(--color-line)]">
         <Logo href="#top" size="28px" />
         <div class="text-[13px] text-muted">Nutrition · Strength · Cardio · Supplementation</div>
+        <div class="text-[13px] text-muted">&copy; {year} 4Ever Fit Lifestyle</div>
       </footer>
     </main>
   </div>
@@ -797,9 +804,10 @@ const faqItems = [
         </section>
 
         <!-- 13. Footer -->
-        <footer class="px-5 py-9 flex flex-col gap-3">
+        <footer class="px-5 py-9 flex flex-col gap-3 border-t border-[color:var(--color-line)]">
           <Logo href="#m-top" size="28px" />
           <div class="text-[13px] text-muted">Nutrition · Strength · Cardio · Supplementation</div>
+          <div class="text-[13px] text-muted">&copy; {year} 4Ever Fit Lifestyle</div>
         </footer>
       </main>
 
