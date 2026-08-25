@@ -80,8 +80,17 @@ instrument and less like a logo, but it leans harder on the photography and the 
 own craft to hold attention. If the mark ever stops carrying the fold, this is the first
 decision to revisit.
 
-The original artwork is recoverable from git (`46c8459`, and every commit before
-2026-08-25).
+The original brown artwork is recoverable from git (`46c8459`, and every commit before
+2026-08-25). The charcoal master lives at
+`branding/final/4everfit-badge-charcoal-master.png` &mdash; outside `site/public/`, so it
+is versioned but never shipped.
+
+**Shipped as two WebPs, not one PNG.** `logo/badge.webp` (840&times;700, 117KB) serves the
+intro and hero; `logo/badge-sm.webp` (160&times;133, 10KB) serves the nav and footer
+lockup, which never renders above 40px. Previously a single 2.1MB PNG was sent to all
+four call sites including a 28px one. WebP q90 was measured against the PNG at a mean
+delta of 1.95/255 with the alpha edge bit-identical, which matters because the badge is
+a cutout.
 
 ## Typography
 
