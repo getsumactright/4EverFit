@@ -58,11 +58,30 @@ one accent and one hover value.
    1.74:1 on the ground and 1.91:1 on a card. Do not remove card borders and expect shadow to hold the
    shape; that was the v2 failure, where containers sat at 1.21:1 and read as one flat field.
 
-### The badge stays bronze
+### The badge is charcoal gunmetal, and the page is fully monochrome
 
-The badge PNG is cast bronze/gunmetal and is not changing. `--color-badge-sheen` exists solely for its
-sheen sweep and is the one warm value left in the system. Never reuse it as an accent — doing so
-reintroduces exactly the second metallic texture that principle 1 rules out.
+The badge artwork was recoloured on 2026-08-25. The shipped PNG had a warm brown
+leather field (hue 28&deg;) inside a chrome ring; the field is now charcoal
+(hue 200&deg;, saturation 10%, value 74%), applied with a saturation-weighted mask so
+the chrome, the barbell and the lettering were untouched. `PRODUCT.md` describes the
+mark as a "cast bronze/gunmetal badge" &mdash; the original was neither, and this is
+closer to the brand as written.
+
+`--color-badge-sheen` moved with it, from warm bronze `#E7C483` to a cool near-white
+specular `#E9EEF2`. A warm sweep over charcoal read as a gold halo. Metal throws a
+white specular; that is what this is now.
+
+**The consequence, stated plainly.** Principle 1 in `PRODUCT.md` is "the badge earns
+its keep once, not everywhere," and under v3 the badge was the only warm object on a
+near-zero-chroma page &mdash; colour was doing that work. It no longer is. The page is
+now monochrome end to end, and the badge is distinguished by *detail and material*
+rather than by hue. That is a deliberate trade, not an oversight: it reads more like an
+instrument and less like a logo, but it leans harder on the photography and the badge's
+own craft to hold attention. If the mark ever stops carrying the fold, this is the first
+decision to revisit.
+
+The original artwork is recoverable from git (`46c8459`, and every commit before
+2026-08-25).
 
 ## Typography
 

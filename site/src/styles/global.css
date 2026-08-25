@@ -53,10 +53,11 @@
      hairline instead: 1.74:1 on the ground, 1.91:1 on a card. */
   --color-line: #B9BCBB;
 
-  /* The badge PNG is cast bronze and is not changing, so its sheen sweep
-     stays warm. This is the one warm value left in the system and it exists
-     only for the badge — never reuse it as an accent. */
-  --color-badge-sheen: #E7C483;
+  /* Specular highlight for the badge's sheen sweep. Cool near-white, because
+     the artwork is charcoal gunmetal — real metal throws a white specular, and
+     the previous warm bronze value (#E7C483) read as a gold halo once the
+     leather field was recoloured. Exists only for the badge; not an accent. */
+  --color-badge-sheen: #E9EEF2;
 
   /* Display is Bebas Neue: capitals only, single weight, no italic. Anything
      using it must stay at font-weight 400 and font-style normal. */
